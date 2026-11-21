@@ -1,0 +1,4300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniMate | 대학생 스마트 캠퍼스 파트너</title>
+  <style>
+    /* Design System Tokens */
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --primary-soft: #eff6ff;
+      --accent: #0ea5e9;
+      --accent-soft: #e0f2fe;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --success: #10b981;
+      --success-soft: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-soft: #fffbeb;
+      --danger: #ef4444;
+      --danger-soft: #fef2f2;
+      --sidebar-width: 260px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Layout */
+    #sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      transition: var(--transition);
+    }
+
+    .brand {
+      padding: 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .brand-info h1 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .brand-info p {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .nav-item:hover {
+      background-color: var(--bg-page);
+      color: var(--primary-light);
+    }
+
+    .nav-item.active {
+      background-color: var(--primary-soft);
+      color: var(--primary-light);
+      border-color: rgba(37, 99, 235, 0.15);
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2;
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background-color: #fafbfc;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+
+    .user-pill:hover {
+      background-color: var(--border);
+    }
+
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .user-meta {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .user-meta .name {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .user-meta .univ {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    /* Main Content Container */
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header.topbar {
+      height: 68px;
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .univ-tag {
+      background-color: var(--primary-soft);
+      color: var(--primary-light);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .today-badge {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      outline: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-light);
+      color: white;
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-page);
+      border-color: var(--border-hover);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--primary-light);
+      border-color: var(--primary-light);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary-soft);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12.5px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Views container */
+    .view-content {
+      padding: 32px;
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    .view-section {
+      display: none;
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards & Components */
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-hover);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-link {
+      font-size: 13px;
+      color: var(--primary-light);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+    }
+
+    .card-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      font-size: 11.5px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .badge-primary { background: var(--primary-soft); color: var(--primary-light); }
+    .badge-success { background: var(--success-soft); color: var(--success); }
+    .badge-warning { background: var(--warning-soft); color: var(--warning); }
+    .badge-danger { background: var(--danger-soft); color: var(--danger); }
+    .badge-neutral { background: #f1f5f9; color: var(--text-muted); }
+
+    /* Home View Styling */
+    .home-banner {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0284c7 100%);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      color: white;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.35);
+    }
+
+    .home-banner h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .home-banner p {
+      font-size: 14.5px;
+      opacity: 0.9;
+      max-width: 650px;
+      line-height: 1.5;
+    }
+
+    .banner-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .banner-tag {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .metric-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .metric-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .metric-lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+    }
+
+    .grid-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* List items */
+    .notice-mini-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .notice-mini-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .notice-mini-item:first-child {
+      padding-top: 0;
+    }
+
+    .notice-mini-item:hover .notice-title {
+      color: var(--primary-light);
+    }
+
+    .notice-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      transition: var(--transition);
+      line-height: 1.4;
+    }
+
+    .notice-date {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    /* Todo list on Home & Study */
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: var(--bg-page);
+      border-radius: var(--radius-md);
+      margin-bottom: 8px;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .todo-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .todo-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-light);
+      cursor: pointer;
+    }
+
+    .todo-text {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .todo-text.done {
+      text-decoration: line-through;
+      color: var(--text-light);
+    }
+
+    /* Filter pills & search */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-chip:hover {
+      border-color: var(--primary-light);
+      color: var(--primary-light);
+    }
+
+    .filter-chip.active {
+      background: var(--primary-light);
+      color: white;
+      border-color: var(--primary-light);
+    }
+
+    .search-input-wrap {
+      position: relative;
+      min-width: 260px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px 8px 36px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      font-size: 13.5px;
+      background: var(--bg-card);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      pointer-events: none;
+    }
+
+    /* Opportunities & Contests Grid */
+    .opp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .opp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .opp-card:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .opp-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .opp-organizer {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .opp-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .opp-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .opp-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--bg-page);
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+    }
+
+    .opp-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .opp-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bookmark-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .bookmark-btn:hover {
+      background: var(--primary-soft);
+      color: var(--primary-light);
+    }
+
+    .bookmark-btn.active {
+      background: var(--warning-soft);
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+
+    /* Timetable on Study */
+    .timetable-wrapper {
+      overflow-x: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+    }
+
+    .timetable-grid {
+      display: grid;
+      grid-template-columns: 60px repeat(5, 1fr);
+      min-width: 650px;
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+    }
+
+    .tt-header {
+      padding: 12px;
+      background: var(--bg-page);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .tt-time-cell {
+      padding: 8px 4px;
+      font-size: 11px;
+      text-align: center;
+      color: var(--text-light);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: #fafbfc;
+      font-weight: 600;
+    }
+
+    .tt-cell {
+      min-height: 48px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 4px;
+      position: relative;
+    }
+
+    .tt-lecture-block {
+      background: #dbeafe;
+      border-left: 3px solid var(--primary-light);
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-size: 11.5px;
+      color: #1e3a8a;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tt-lecture-title {
+      font-weight: 700;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .tt-lecture-loc {
+      font-size: 10px;
+      color: #3b82f6;
+    }
+
+    .tt-free-cell {
+      background: #f8fafc;
+      color: #cbd5e1;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Study Timer Widget */
+    .timer-box {
+      text-align: center;
+      padding: 24px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .timer-display {
+      font-size: 48px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      letter-spacing: -1px;
+      margin: 16px 0;
+    }
+
+    .timer-modes {
+      display: inline-flex;
+      background: var(--bg-page);
+      padding: 4px;
+      border-radius: var(--radius-full);
+      gap: 4px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .timer-mode-btn {
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+    }
+
+    .timer-mode-btn.active {
+      background: var(--primary-light);
+      color: white;
+    }
+
+    /* Study Survey Widget */
+    .survey-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    .survey-q-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .survey-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .survey-option-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--bg-page);
+    }
+
+    .survey-option-label:hover {
+      border-color: var(--primary-light);
+      background: var(--primary-soft);
+    }
+
+    .survey-option-label input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-light);
+    }
+
+    .survey-result-box {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    /* Community View */
+    .community-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+    }
+
+    .board-nav {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .board-nav-item {
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .board-nav-item:hover {
+      background: var(--bg-page);
+      color: var(--primary-light);
+    }
+
+    .board-nav-item.active {
+      background: var(--primary-soft);
+      color: var(--primary-light);
+      font-weight: 700;
+    }
+
+    .post-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .post-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .post-author {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .post-time {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .post-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .post-snippet {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .post-footer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12.5px;
+      color: var(--text-light);
+    }
+
+    .post-metric {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 밥약 (Bapyak) View */
+    .bapyak-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .bapyak-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+
+    .bapyak-card:hover {
+      border-color: var(--primary-light);
+      box-shadow: var(--shadow-md);
+    }
+
+    .bapyak-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .bapyak-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .bapyak-intro {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .bapyak-details {
+      background: var(--bg-page);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .bapyak-details-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bapyak-host {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .bapyak-host-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .bapyak-host-info {
+      font-size: 12px;
+    }
+
+    .bapyak-host-info .name {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .bapyak-host-info .meta {
+      color: var(--text-light);
+    }
+
+    /* Modal System */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-box {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      animation: modalSlideUp 0.25s ease-out;
+    }
+
+    @keyframes modalSlideUp {
+      from { transform: translateY(16px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      padding: 4px;
+    }
+
+    .modal-close:hover {
+      background: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: #fafbfc;
+      border-bottom-left-radius: var(--radius-lg);
+      border-bottom-right-radius: var(--radius-lg);
+    }
+
+    /* Form controls */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-label .req {
+      color: var(--danger);
+      margin-left: 2px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      background: var(--bg-card);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-control.has-error {
+      border-color: var(--danger);
+      background-color: var(--danger-soft);
+    }
+
+    .field-error-msg {
+      font-size: 11.5px;
+      color: var(--danger);
+      margin-top: 4px;
+      display: none;
+    }
+
+    .field-error-msg.visible {
+      display: block;
+    }
+
+    .chips-select-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .chip-btn {
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      background: var(--bg-page);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .chip-btn:hover {
+      border-color: var(--primary-light);
+    }
+
+    .chip-btn.selected {
+      background: var(--primary-soft);
+      border-color: var(--primary-light);
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+
+    /* Toast Notification */
+    #toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      padding: 14px 20px;
+      background: #1e293b;
+      color: white;
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: var(--transition);
+    }
+
+    @keyframes toastIn {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .toast-success { border-left: 4px solid var(--success); }
+    .toast-error { border-left: 4px solid var(--danger); }
+    .toast-info { border-left: 4px solid var(--accent); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      #sidebar {
+        width: 70px;
+      }
+      .brand-info, .nav-item span, .sidebar-footer .user-meta {
+        display: none;
+      }
+      .brand {
+        padding: 20px 14px;
+        justify-content: center;
+      }
+      .nav-item {
+        justify-content: center;
+        padding: 14px;
+      }
+      .sidebar-footer {
+        padding: 12px;
+      }
+      #main {
+        margin-left: 70px;
+      }
+      .metrics-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .grid-2col {
+        grid-template-columns: 1fr;
+      }
+      .community-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .view-content {
+        padding: 16px;
+      }
+      .metrics-row {
+        grid-template-columns: 1fr;
+      }
+      header.topbar {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Left Sidebar Navigation -->
+  <nav id="sidebar">
+    <div class="brand" onclick="switchView('home')">
+      <div class="brand-logo">U</div>
+      <div class="brand-info">
+        <h1>UniMate</h1>
+        <p>스마트 캠퍼스 파트너</p>
+      </div>
+    </div>
+
+    <ul class="nav-list">
+      <li class="nav-item active" data-view="home" onclick="switchView('home')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span>홈 (대시보드)</span>
+      </li>
+      <li class="nav-item" data-view="campus" onclick="switchView('campus')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        <span>캠퍼스 (공지·프로그램)</span>
+      </li>
+      <li class="nav-item" data-view="opportunities" onclick="switchView('opportunities')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+        <span>공모전 & 대외활동</span>
+      </li>
+      <li class="nav-item" data-view="study" onclick="switchView('study')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span>학습 관리 (Study)</span>
+      </li>
+      <li class="nav-item" data-view="community" onclick="switchView('community')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        <span>커뮤니티</span>
+      </li>
+      <li class="nav-item" data-view="bapyak" onclick="switchView('bapyak')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>밥약 (식사 메이트)</span>
+      </li>
+      <li class="nav-item" data-view="mypage" onclick="switchView('mypage')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span>마이페이지</span>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="user-pill" onclick="switchView('mypage')">
+        <div class="user-avatar" id="sidebar-user-avatar">유</div>
+        <div class="user-meta">
+          <div class="name" id="sidebar-user-name">유니메이트</div>
+          <div class="univ" id="sidebar-user-univ">대학교 등록 필요</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main View Area -->
+  <main id="main">
+    <!-- Topbar Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="page-title" id="topbar-title">홈 (대학생활 통합 대시보드)</div>
+        <div class="univ-tag" id="topbar-univ-badge">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          <span id="topbar-univ-name">대학교 선택</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="today-badge">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span id="topbar-date">2026년 11월 21일</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="openProfileModal()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          설정
+        </button>
+      </div>
+    </header>
+
+    <div class="view-content">
+
+      <!-- ================= 1. HOME VIEW ================= -->
+      <section id="view-home" class="view-section active">
+        <div class="home-banner">
+          <h2 id="home-welcome-msg">안녕하세요, 민우 메이트님! 🎓</h2>
+          <p id="home-welcome-sub">오늘도 스마트한 캠퍼스 라이프를 시작해 보세요. 학교 최신 공지와 맞춤 추천 공모전, 오늘의 학습 계획을 준비했습니다.</p>
+          <div class="banner-tags" id="home-interest-tags">
+            <span class="banner-tag">#IT 및 개발</span>
+            <span class="banner-tag">#공모전</span>
+            <span class="banner-tag">#취업 및 진로</span>
+          </div>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-card">
+            <div class="metric-icon" style="background:#eff6ff; color:#2563eb;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div>
+              <div class="metric-val" id="metric-study-time">3.5 / 5.0h</div>
+              <div class="metric-lbl">오늘 공부 달성률 70%</div>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon" style="background:#fef2f2; color:#ef4444;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            </div>
+            <div>
+              <div class="metric-val" id="metric-tasks-count">2건 남음</div>
+              <div class="metric-lbl">다가오는 과제 및 시험</div>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon" style="background:#ecfdf5; color:#10b981;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
+            <div>
+              <div class="metric-val" id="metric-bapyak-count">5팀 모집중</div>
+              <div class="metric-lbl">내 캠퍼스 실시간 밥약</div>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon" style="background:#fffbeb; color:#f59e0b;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            </div>
+            <div>
+              <div class="metric-val" id="metric-notice-count">4건 신규</div>
+              <div class="metric-lbl">최신 교내 공지사항</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Left Column -->
+          <div class="grid-col">
+            <!-- Campus Notices Briefing -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                  최신 학교 공지사항
+                </div>
+                <button class="card-link" onclick="switchView('campus')">더보기 &rarr;</button>
+              </div>
+              <div id="home-notices-list"></div>
+            </div>
+
+            <!-- Today's Study & Tasks -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                  오늘의 공부 및 과제 일정
+                </div>
+                <button class="card-link" onclick="switchView('study')">학습관리 바로가기 &rarr;</button>
+              </div>
+              <div id="home-todo-list"></div>
+            </div>
+
+            <!-- Active Bapyak Matching -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  현재 모집 중인 밥약
+                </div>
+                <button class="card-link" onclick="switchView('bapyak')">밥약 찾기 &rarr;</button>
+              </div>
+              <div id="home-bapyak-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="grid-col">
+            <!-- Study Method Recommendation Banner -->
+            <div class="card" style="background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%); border-color: #bfdbfe;">
+              <div style="display:flex; align-items:flex-start; gap:14px;">
+                <div style="background:#2563eb; color:white; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div>
+                  <h4 style="font-size:15px; font-weight:700; color:#1e3a8a; margin-bottom:4px;">나에게 딱 맞는 공부법 찾기</h4>
+                  <p style="font-size:12.5px; color:#475569; margin-bottom:12px; line-height:1.4;">5가지 간단한 설문으로 내 성향과 과목에 최적화된 공부 기법(포모도로, 파인만, 액티브 리콜 등)을 추천해 드립니다.</p>
+                  <button class="btn btn-primary btn-sm" onclick="switchView('study'); openStudySurvey();">지금 진단하기 &rarr;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recommended Opportunities -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                  추천 공모전 및 대외활동
+                </div>
+                <button class="card-link" onclick="switchView('opportunities')">전체보기 &rarr;</button>
+              </div>
+              <div id="home-opp-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+
+            <!-- Latest Community Posts -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+                  최신 커뮤니티 글
+                </div>
+                <button class="card-link" onclick="switchView('community')">커뮤니티 가기 &rarr;</button>
+              </div>
+              <div id="home-community-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. CAMPUS VIEW ================= -->
+      <section id="view-campus" class="view-section">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <span style="font-size:13.5px; font-weight:700; color:var(--text-main);">현재 학교:</span>
+            <select id="campus-univ-selector" class="form-control" style="width:190px; padding:6px 12px; font-size:13px;" onchange="changeCampusUniv(this.value)">
+              <option value="성균관대학교">성균관대학교</option>
+              <option value="서울대학교">서울대학교</option>
+              <option value="연세대학교">연세대학교</option>
+              <option value="고려대학교">고려대학교</option>
+              <option value="한양대학교">한양대학교</option>
+              <option value="서강대학교">서강대학교</option>
+              <option value="중앙대학교">중앙대학교</option>
+              <option value="경희대학교">경희대학교</option>
+              <option value="한국외국어대학교">한국외국어대학교</option>
+              <option value="서울시립대학교">서울시립대학교</option>
+              <option value="카이스트">카이스트 (KAIST)</option>
+              <option value="부산대학교">부산대학교</option>
+            </select>
+          </div>
+
+          <div class="search-input-wrap">
+            <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" id="campus-search-input" class="search-input" placeholder="공지 및 프로그램 검색..." oninput="renderCampusNotices()">
+          </div>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="filter-group" style="margin-bottom:20px;">
+          <button class="filter-chip active" data-cat="전체" onclick="filterCampusCategory('전체', this)">전체</button>
+          <button class="filter-chip" data-cat="일반 공지" onclick="filterCampusCategory('일반 공지', this)">일반 공지</button>
+          <button class="filter-chip" data-cat="학사 공지" onclick="filterCampusCategory('학사 공지', this)">학사 공지</button>
+          <button class="filter-chip" data-cat="장학 공지" onclick="filterCampusCategory('장학 공지', this)">장학 공지</button>
+          <button class="filter-chip" data-cat="취업 및 진로" onclick="filterCampusCategory('취업 및 진로', this)">취업 및 진로</button>
+          <button class="filter-chip" data-cat="교내 프로그램" onclick="filterCampusCategory('교내 프로그램', this)">교내 프로그램</button>
+          <button class="filter-chip" data-cat="학교 행사" onclick="filterCampusCategory('학교 행사', this)">학교 행사</button>
+        </div>
+
+        <div id="campus-notices-container" style="display:flex; flex-direction:column; gap:16px;"></div>
+      </section>
+
+      <!-- ================= 3. OPPORTUNITIES VIEW ================= -->
+      <section id="view-opportunities" class="view-section">
+        <div class="filter-bar">
+          <div class="filter-group" id="opp-cat-filters">
+            <button class="filter-chip active" data-cat="전체" onclick="filterOppCategory('전체', this)">전체 기회</button>
+            <button class="filter-chip" data-cat="공모전" onclick="filterOppCategory('공모전', this)">공모전</button>
+            <button class="filter-chip" data-cat="대외활동" onclick="filterOppCategory('대외활동', this)">대외활동·서포터즈</button>
+            <button class="filter-chip" data-cat="외부 교육" onclick="filterOppCategory('외부 교육', this)">외부 교육·해커톤</button>
+            <button class="filter-chip" data-cat="창업" onclick="filterOppCategory('창업', this)">창업 지원</button>
+            <button class="filter-chip" data-cat="장학금" onclick="filterOppCategory('장학금', this)">장학·학술</button>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:10px;">
+            <select id="opp-sort-select" class="form-control" style="width:140px; padding:6px 10px; font-size:12.5px;" onchange="renderOpportunities()">
+              <option value="dday">마감임박순</option>
+              <option value="latest">최신등록순</option>
+              <option value="popular">인기순 (스크랩)</option>
+            </select>
+
+            <div class="search-input-wrap">
+              <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="opp-search-input" class="search-input" placeholder="공모전 명, 주최기관 검색..." oninput="renderOpportunities()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Subfield filter chips -->
+        <div class="chips-select-wrap" style="margin-bottom:24px;">
+          <span style="font-size:12px; font-weight:700; color:var(--text-muted); align-self:center; margin-right:4px;">관심 분야 필터:</span>
+          <button class="chip-btn selected" data-field="all" onclick="filterOppField('all', this)">전체 분야</button>
+          <button class="chip-btn" data-field="IT 및 개발" onclick="filterOppField('IT 및 개발', this)">IT 및 개발</button>
+          <button class="chip-btn" data-field="취업 및 진로" onclick="filterOppField('취업 및 진로', this)">취업 및 진로</button>
+          <button class="chip-btn" data-field="공모전" onclick="filterOppField('공모전', this)">아이디어·기획</button>
+          <button class="chip-btn" data-field="문화 및 예술" onclick="filterOppField('문화 및 예술', this)">디자인·영상</button>
+          <button class="chip-btn" data-field="봉사활동" onclick="filterOppField('봉사활동', this)">봉사활동</button>
+        </div>
+
+        <div id="opp-grid-container" class="opp-grid"></div>
+      </section>
+
+      <!-- ================= 4. STUDY VIEW ================= -->
+      <section id="view-study" class="view-section">
+        <!-- Study Navigation Tabs -->
+        <div style="display:flex; gap:10px; border-bottom:1px solid var(--border); padding-bottom:14px; margin-bottom:24px;">
+          <button class="btn btn-primary" id="study-tab-tt-btn" onclick="switchStudySubTab('tt')">주간 시간표</button>
+          <button class="btn btn-secondary" id="study-tab-manage-btn" onclick="switchStudySubTab('manage')">학습 시간 & 과제 관리</button>
+          <button class="btn btn-secondary" id="study-tab-survey-btn" onclick="switchStudySubTab('survey')">맞춤형 공부법 진단</button>
+        </div>
+
+        <!-- Sub-Tab 1: Timetable -->
+        <div id="study-sub-tt">
+          <div class="card-header" style="margin-bottom:16px;">
+            <div>
+              <h3 style="font-size:18px; font-weight:700;">2026학년도 2학기 주간 시간표</h3>
+              <p style="font-size:13px; color:var(--text-muted);">강의 시간과 공강 시간을 30분 단위로 스마트하게 관리하세요.</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openAddLectureModal()">+ 강의·일정 추가</button>
+          </div>
+
+          <div class="timetable-wrapper">
+            <div class="timetable-grid" id="timetable-matrix">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-Tab 2: Study Management & Timer & Graph -->
+        <div id="study-sub-manage" style="display:none;">
+          <div class="grid-2col">
+            <!-- Timer & Goal -->
+            <div class="grid-col">
+              <!-- Realtime Timer Box -->
+              <div class="timer-box">
+                <div class="timer-modes">
+                  <button class="timer-mode-btn active" id="timer-mode-stopwatch" onclick="setTimerMode('stopwatch')">스톱워치</button>
+                  <button class="timer-mode-btn" id="timer-mode-pomodoro" onclick="setTimerMode('pomodoro')">포모도로 (25분)</button>
+                </div>
+                <div class="timer-display" id="study-timer-display">00:00:00</div>
+                <div style="display:flex; justify-content:center; gap:10px; margin-bottom:16px;">
+                  <button class="btn btn-primary" id="timer-toggle-btn" onclick="toggleTimer()">시작</button>
+                  <button class="btn btn-secondary" onclick="resetTimer()">초기화</button>
+                  <button class="btn btn-outline" onclick="saveTimerToStudyLog()">오늘 공부시간에 반영</button>
+                </div>
+                <p style="font-size:12px; color:var(--text-light);">측정한 시간을 즉시 오늘 실제 공부시간에 기록할 수 있습니다.</p>
+              </div>
+
+              <!-- Study Time Goal Adjustment -->
+              <div class="card">
+                <div class="card-title" style="margin-bottom:16px;">목표 및 실제 공부시간 관리</div>
+                <div class="form-group">
+                  <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:6px;">
+                    <span>하루 목표 공부시간</span>
+                    <span id="daily-target-val" style="color:var(--primary-light);">5.0 시간</span>
+                  </div>
+                  <input type="range" min="1" max="12" step="0.5" value="5" class="form-control" style="padding:0;" oninput="updateDailyTarget(this.value)">
+                </div>
+
+                <div class="form-group">
+                  <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:6px;">
+                    <span>오늘 실제 공부시간</span>
+                    <span id="daily-actual-val" style="color:var(--success);">3.5 시간</span>
+                  </div>
+                  <input type="range" min="0" max="14" step="0.5" value="3.5" class="form-control" style="padding:0;" oninput="updateDailyActual(this.value)">
+                </div>
+
+                <div style="margin-top:20px; padding:14px; background:var(--bg-page); border-radius:var(--radius-md);">
+                  <div style="display:flex; justify-content:space-between; font-size:12.5px; font-weight:600; margin-bottom:6px;">
+                    <span>주간 목표 달성률 (목표 25시간 / 현재 18.5시간)</span>
+                    <span style="color:var(--primary-light);">74%</span>
+                  </div>
+                  <div style="width:100%; height:8px; background:#e2e8f0; border-radius:4px; overflow:hidden;">
+                    <div style="width:74%; height:100%; background:var(--primary-light); border-radius:4px;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Weekly Chart Visual -->
+              <div class="card">
+                <div class="card-title" style="margin-bottom:16px;">이번 주 요일별 공부시간 (월~일)</div>
+                <div style="display:flex; align-items:flex-end; justify-content:space-between; height:150px; padding-top:20px;">
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;">
+                    <span style="font-size:11px; font-weight:600; color:var(--text-muted);">4.0h</span>
+                    <div style="width:24px; height:80px; background:#bfdbfe; border-radius:4px;"></div>
+                    <span style="font-size:12px; color:var(--text-muted);">월</span>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;">
+                    <span style="font-size:11px; font-weight:600; color:var(--text-muted);">5.5h</span>
+                    <div style="width:24px; height:110px; background:#bfdbfe; border-radius:4px;"></div>
+                    <span style="font-size:12px; color:var(--text-muted);">화</span>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;">
+                    <span style="font-size:11px; font-weight:600; color:var(--text-muted);">3.0h</span>
+                    <div style="width:24px; height:60px; background:#bfdbfe; border-radius:4px;"></div>
+                    <span style="font-size:12px; color:var(--text-muted);">수</span>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;">
+                    <span style="font-size:11px; font-weight:600; color:var(--text-muted);">2.5h</span>
+                    <div style="width:24px; height:50px; background:#bfdbfe; border-radius:4px;"></div>
+                    <span style="font-size:12px; color:var(--text-muted);">목</span>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;">
+                    <span style="font-size:11px; font-weight:600; color:var(--text-muted);">3.5h</span>
+                    <div style="width:24px; height:70px; background:var(--primary-light); border-radius:4px;"></div>
+                    <span style="font-size:12px; font-weight:700; color:var(--primary-light);">금</span>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;">
+                    <span style="font-size:11px; font-weight:600; color:var(--text-muted);">-</span>
+                    <div style="width:24px; height:10px; background:#e2e8f0; border-radius:4px;"></div>
+                    <span style="font-size:12px; color:var(--text-muted);">토</span>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;">
+                    <span style="font-size:11px; font-weight:600; color:var(--text-muted);">-</span>
+                    <div style="width:24px; height:10px; background:#e2e8f0; border-radius:4px;"></div>
+                    <span style="font-size:12px; color:var(--text-muted);">일</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subject Plans & Assignment Checklist -->
+            <div class="grid-col">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">과제 및 시험 D-Day 체크리스트</div>
+                  <button class="btn btn-secondary btn-sm" onclick="openAddTaskModal()">+ 일정 등록</button>
+                </div>
+                <div id="study-tasks-list"></div>
+              </div>
+
+              <div class="card">
+                <div class="card-title" style="margin-bottom:16px;">과목별 학습 목표</div>
+                <div style="display:flex; flex-direction:column; gap:14px;">
+                  <div style="padding:14px; background:var(--bg-page); border-radius:var(--radius-md); border:1px solid var(--border);">
+                    <div style="display:flex; justify-content:space-between; font-weight:700; font-size:14px; margin-bottom:4px;">
+                      <span>자료구조론</span>
+                      <span class="badge badge-primary">중간고사 대비 80%</span>
+                    </div>
+                    <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:8px;">B-Tree 및 Red-Black Tree 알고리즘 직접 구현해보기</p>
+                    <div style="width:100%; height:6px; background:#e2e8f0; border-radius:3px; overflow:hidden;">
+                      <div style="width:80%; height:100%; background:var(--primary-light);"></div>
+                    </div>
+                  </div>
+
+                  <div style="padding:14px; background:var(--bg-page); border-radius:var(--radius-md); border:1px solid var(--border);">
+                    <div style="display:flex; justify-content:space-between; font-weight:700; font-size:14px; margin-bottom:4px;">
+                      <span>데이터베이스</span>
+                      <span class="badge badge-success">실습 완료 65%</span>
+                    </div>
+                    <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:8px;">SQL 정규화 1~3정규형 복습 및 인덱스 튜닝 문제 풀이</p>
+                    <div style="width:100%; height:6px; background:#e2e8f0; border-radius:3px; overflow:hidden;">
+                      <div style="width:65%; height:100%; background:var(--success);"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-Tab 3: Study Method Survey -->
+        <div id="study-sub-survey" style="display:none;">
+          <div class="survey-card">
+            <h3 style="font-size:20px; font-weight:800; color:var(--primary); margin-bottom:8px;">🧠 대학생 맞춤형 공부방법 진단 테스트</h3>
+            <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:24px;">나의 집중 패턴, 학습 환경, 시험 스타일에 맞춰 최고의 학습 효율을 이끌어내는 공부법을 추천해 드립니다.</p>
+
+            <form id="study-survey-form" onsubmit="submitStudySurvey(event)">
+              <!-- Q1 -->
+              <div class="survey-q-title">Q1. 평소 가장 집중이 잘 되는 학습 환경은 어디인가요?</div>
+              <div class="survey-options">
+                <label class="survey-option-label">
+                  <input type="radio" name="sq1" value="pomodoro" required>
+                  <span>책상 위가 정돈된 조용한 독서실 또는 도서관 개인 열람실</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq1" value="feynman">
+                  <span>적당한 백색소음이 있는 카페 또는 친구와 질문을 주고받을 수 있는 스터디룸</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq1" value="activerecall">
+                  <span>모니터와 아이패드에 타이머를 띄워두고 스스로 퀴즈를 풀 수 있는 환경</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq1" value="timeblocking">
+                  <span>아무 방해 없이 2~3시간 연속으로 깊게 몰입할 수 있는 나만의 방</span>
+                </label>
+              </div>
+
+              <!-- Q2 -->
+              <div class="survey-q-title">Q2. 스마트폰이나 딴짓 없이 순수하게 집중할 수 있는 1회 지속 시간은?</div>
+              <div class="survey-options">
+                <label class="survey-option-label">
+                  <input type="radio" name="sq2" value="pomodoro" required>
+                  <span>20분~25분 정도가 한계이며, 짧게 자주 쉬어줘야 지치지 않는다.</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq2" value="feynman">
+                  <span>40~50분 정도이며, 지루할 때는 말로 소리 내어 읽거나 필기를 다시 적는다.</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq2" value="activerecall">
+                  <span>시간보다는 '문제 1세트' 또는 '단원 1개'를 끝낼 때까지 몰입한다.</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq2" value="timeblocking">
+                  <span>한 번 발동 걸리면 2시간 이상 몰입하며 흐름이 끊기면 다시 집중하기 힘들다.</span>
+                </label>
+              </div>
+
+              <!-- Q3 -->
+              <div class="survey-q-title">Q3. 이번 학기 가장 부담되거나 고득점을 노리는 과목 유형은?</div>
+              <div class="survey-options">
+                <label class="survey-option-label">
+                  <input type="radio" name="sq3" value="activerecall" required>
+                  <span>방대한 개념 암기 및 족보 키워드 암기가 필수인 시험 (생물, 법학, 의학, 전공개론)</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq3" value="feynman">
+                  <span>근본적인 원리와 증명을 이해해야 응용문제를 풀 수 있는 과목 (수학, 물리, 회로이론)</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq3" value="timeblocking">
+                  <span>코딩, 텀프로젝트, 실기, 긴 레포트 작성이 핵심인 실습형 과목</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq3" value="sq3r">
+                  <span>방대한 원서(외서) 교재나 학술 논문을 읽고 요약해야 하는 세미나형 과목</span>
+                </label>
+              </div>
+
+              <!-- Q4 -->
+              <div class="survey-q-title">Q4. 시험 기간 평소 본인의 학습 습관은 어떤 편인가요?</div>
+              <div class="survey-options">
+                <label class="survey-option-label">
+                  <input type="radio" name="sq4" value="pomodoro" required>
+                  <span>시험 1~2주 전 벼락치기를 하지만 쉽게 번아웃이 와서 자주 쉰다.</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq4" value="activerecall">
+                  <span>미리 요약 노트를 만들고 시험 직전까지 빈 종이에 테스트를 본다.</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq4" value="feynman">
+                  <span>친구들에게 개념을 가르쳐주면서 스스로 어디를 모르는지 파악한다.</span>
+                </label>
+                <label class="survey-option-label">
+                  <input type="radio" name="sq4" value="timeblocking">
+                  <span>캘린더나 플래너에 날짜별 시간대별로 할 일을 정해두고 순서대로 격파한다.</span>
+                </label>
+              </div>
+
+              <div id="survey-validation-alert" class="field-error-msg" style="margin-bottom:14px; font-size:13px;">
+                ⚠️ 모든 설문 문항에 답변을 선택해 주세요.
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="padding:12px 28px; font-size:15px;">
+                🎯 나만의 맞춤 공부법 분석 결과 보기
+              </button>
+            </form>
+
+            <!-- Result Box -->
+            <div id="survey-result-box" class="survey-result-box">
+              <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                <span id="survey-res-badge" class="badge badge-primary" style="font-size:13px; padding:6px 14px;">추천 공부법</span>
+                <h4 id="survey-res-title" style="font-size:20px; font-weight:800; color:var(--primary);">포모도로 집중 루틴 (Pomodoro Technique)</h4>
+              </div>
+              <p id="survey-res-desc" style="font-size:14px; color:#334155; line-height:1.6; margin-bottom:16px;"></p>
+              
+              <div style="background:white; padding:18px; border-radius:var(--radius-md); margin-bottom:16px;">
+                <div style="font-size:14px; font-weight:700; color:var(--text-main); margin-bottom:8px;">📌 추천 실행 플랜:</div>
+                <ul id="survey-res-steps" style="font-size:13px; color:var(--text-muted); padding-left:18px; line-height:1.6;"></ul>
+              </div>
+
+              <div style="display:flex; gap:10px;">
+                <button class="btn btn-primary btn-sm" onclick="applyStudyMethod()">내 학습 계획에 이 공부법 적용</button>
+                <button class="btn btn-secondary btn-sm" onclick="resetSurvey()">다시 검사하기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. COMMUNITY VIEW ================= -->
+      <section id="view-community" class="view-section">
+        <div class="community-layout">
+          <!-- Board Categories Sidebar -->
+          <div class="board-nav">
+            <div class="board-nav-item active" data-board="all" onclick="selectBoard('all', this)">
+              <span>전체 게시글</span>
+              <span class="badge badge-neutral" id="board-cnt-all">24</span>
+            </div>
+            <div class="board-nav-item" data-board="free" onclick="selectBoard('free', this)">
+              <span>자유게시판</span>
+              <span class="badge badge-neutral">12</span>
+            </div>
+            <div class="board-nav-item" data-board="school" onclick="selectBoard('school', this)">
+              <span id="board-school-name">성균관대 전용</span>
+              <span class="badge badge-primary">8</span>
+            </div>
+            <div class="board-nav-item" data-board="major" onclick="selectBoard('major', this)">
+              <span>학과별 게시판</span>
+              <span class="badge badge-neutral">5</span>
+            </div>
+            <div class="board-nav-item" data-board="qna" onclick="selectBoard('qna', this)">
+              <span>학교생활 질문 (Q&A)</span>
+              <span class="badge badge-neutral">6</span>
+            </div>
+            <div class="board-nav-item" data-board="study" onclick="selectBoard('study', this)">
+              <span>스터디 모집</span>
+              <span class="badge badge-success">4</span>
+            </div>
+            <div class="board-nav-item" data-board="project" onclick="selectBoard('project', this)">
+              <span>팀 프로젝트 모집</span>
+              <span class="badge badge-warning">3</span>
+            </div>
+          </div>
+
+          <!-- Post Stream & Action -->
+          <div>
+            <div class="filter-bar" style="margin-bottom:16px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <h3 id="current-board-title" style="font-size:18px; font-weight:700;">전체 게시판</h3>
+                <span class="badge badge-primary" id="board-tag-indicator">전체</span>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <div class="search-input-wrap" style="min-width:200px;">
+                  <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <input type="text" id="comm-search-input" class="search-input" placeholder="글 제목, 내용 검색..." oninput="renderCommunityPosts()">
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="openWritePostModal()">+ 글쓰기</button>
+              </div>
+            </div>
+
+            <div id="community-posts-container"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. 밥약 (MEAL MATE) VIEW ================= -->
+      <section id="view-bapyak" class="view-section">
+        <div class="card" style="background:linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%); border-color:#fde68a; margin-bottom:24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+            <div>
+              <h3 style="font-size:19px; font-weight:800; color:#92400e; margin-bottom:4px;">🍚 캠퍼스 밥약 메이트 찾기</h3>
+              <p style="font-size:13.5px; color:#78350f;">혼밥 대신 새로운 대학 동기, 선후배와 맛있는 한 끼를 함께하세요. 안전하고 건전한 캠퍼스 교류를 지향합니다.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openCreateBapyakModal()">+ 밥약 모집글 작성</button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-group" id="bapyak-food-filters">
+            <button class="filter-chip active" data-food="전체" onclick="filterBapyakFood('전체', this)">전체 음식</button>
+            <button class="filter-chip" data-food="한식" onclick="filterBapyakFood('한식', this)">한식</button>
+            <button class="filter-chip" data-food="일식" onclick="filterBapyakFood('일식', this)">일식/돈카츠</button>
+            <button class="filter-chip" data-food="중식" onclick="filterBapyakFood('중식', this)">중식/마라탕</button>
+            <button class="filter-chip" data-food="양식" onclick="filterBapyakFood('양식', this)">양식/파스타</button>
+            <button class="filter-chip" data-food="분식/패스트푸드" onclick="filterBapyakFood('분식/패스트푸드', this)">분식/버거</button>
+            <button class="filter-chip" data-food="카페/디저트" onclick="filterBapyakFood('카페/디저트', this)">카페/디저트</button>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:10px;">
+            <select id="bapyak-status-filter" class="form-control" style="width:120px; padding:6px 10px; font-size:12.5px;" onchange="renderBapyakList()">
+              <option value="all">전체 상태</option>
+              <option value="recruiting">모집중만</option>
+              <option value="completed">모집완료</option>
+            </select>
+            <div class="search-input-wrap">
+              <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="bapyak-search-input" class="search-input" placeholder="식당, 위치, 메뉴 검색..." oninput="renderBapyakList()">
+            </div>
+          </div>
+        </div>
+
+        <div id="bapyak-grid-container" class="bapyak-grid"></div>
+      </section>
+
+      <!-- ================= 7. MY PAGE VIEW ================= -->
+      <section id="view-mypage" class="view-section">
+        <!-- Profile Card -->
+        <div class="card" style="margin-bottom:24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; align-items:center; gap:20px;">
+              <div class="user-avatar" id="mypage-avatar" style="width:64px; height:64px; font-size:26px;">민</div>
+              <div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <h3 id="mypage-name" style="font-size:20px; font-weight:800;">민우</h3>
+                  <span class="badge badge-primary" id="mypage-grade">3학년</span>
+                </div>
+                <div style="font-size:13.5px; color:var(--text-muted); margin-top:4px;" id="mypage-univ-dept">
+                  성균관대학교 소프트웨어학과
+                </div>
+                <div class="chips-select-wrap" id="mypage-interests" style="margin-top:8px;">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-secondary" onclick="openProfileModal()">프로필 수정</button>
+          </div>
+        </div>
+
+        <!-- My Page Sub Navigation -->
+        <div style="display:flex; gap:8px; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:20px;">
+          <button class="filter-chip active" id="mypage-tab-bookmarks-btn" onclick="switchMyPageSubTab('bookmarks')">즐겨찾기한 공모전</button>
+          <button class="filter-chip" id="mypage-tab-posts-btn" onclick="switchMyPageSubTab('posts')">내가 쓴 커뮤니티 글</button>
+          <button class="filter-chip" id="mypage-tab-bapyak-btn" onclick="switchMyPageSubTab('bapyak')">내 밥약 신청 & 모집</button>
+          <button class="filter-chip" id="mypage-tab-report-btn" onclick="switchMyPageSubTab('report')">학습 리포트</button>
+        </div>
+
+        <div id="mypage-sub-content">
+          <!-- Dynamic Subtab Content -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Onboarding & Profile Modal -->
+  <div id="modal-profile" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="profile-modal-title">사용자 기본 정보 설정</div>
+        <button class="modal-close" onclick="closeModal('modal-profile')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="profile-form" onsubmit="saveUserProfile(event)">
+        <div class="modal-body">
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:18px;">
+            UniMate는 등록하신 대학교와 관심 분야를 바탕으로 학교 공지사항과 대외활동 기회를 자동으로 맞춤 추천해 드립니다.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label">닉네임 <span class="req">*</span></label>
+            <input type="text" id="input-nickname" class="form-control" placeholder="캠퍼스에서 사용할 닉네임 입력" required>
+            <div id="err-nickname" class="field-error-msg">닉네임을 입력해 주세요.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">대학교 <span class="req">*</span></label>
+            <select id="input-university" class="form-control" required>
+              <option value="">대학교를 선택하세요</option>
+              <option value="성균관대학교">성균관대학교</option>
+              <option value="서울대학교">서울대학교</option>
+              <option value="연세대학교">연세대학교</option>
+              <option value="고려대학교">고려대학교</option>
+              <option value="한양대학교">한양대학교</option>
+              <option value="서강대학교">서강대학교</option>
+              <option value="중앙대학교">중앙대학교</option>
+              <option value="경희대학교">경희대학교</option>
+              <option value="한국외국어대학교">한국외국어대학교</option>
+              <option value="서울시립대학교">서울시립대학교</option>
+              <option value="카이스트">카이스트 (KAIST)</option>
+              <option value="포스텍">포스텍 (POSTECH)</option>
+              <option value="부산대학교">부산대학교</option>
+              <option value="경북대학교">경북대학교</option>
+              <option value="전남대학교">전남대학교</option>
+            </select>
+            <div id="err-university" class="field-error-msg">소속 대학교를 선택해 주세요.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">학과 <span class="req">*</span></label>
+            <input type="text" id="input-department" class="form-control" placeholder="예: 소프트웨어학과, 경영학과, 전자공학과" required>
+            <div id="err-department" class="field-error-msg">소속 학과를 입력해 주세요.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">학년 <span class="req">*</span></label>
+            <select id="input-grade" class="form-control" required>
+              <option value="1학년">1학년</option>
+              <option value="2학년">2학년</option>
+              <option value="3학년" selected>3학년</option>
+              <option value="4학년">4학년</option>
+              <option value="휴학생">휴학생</option>
+              <option value="대학원생">대학원생</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">관심 분야 (복수 선택 가능) <span class="req">*</span></label>
+            <div class="chips-select-wrap" id="interest-chips-container">
+              <button type="button" class="chip-btn" data-interest="전공 및 학업" onclick="toggleInterestChip(this)">전공 및 학업</button>
+              <button type="button" class="chip-btn" data-interest="취업 및 진로" onclick="toggleInterestChip(this)">취업 및 진로</button>
+              <button type="button" class="chip-btn selected" data-interest="공모전" onclick="toggleInterestChip(this)">공모전</button>
+              <button type="button" class="chip-btn selected" data-interest="대외활동" onclick="toggleInterestChip(this)">대외활동</button>
+              <button type="button" class="chip-btn" data-interest="장학금" onclick="toggleInterestChip(this)">장학금</button>
+              <button type="button" class="chip-btn" data-interest="창업" onclick="toggleInterestChip(this)">창업</button>
+              <button type="button" class="chip-btn selected" data-interest="IT 및 개발" onclick="toggleInterestChip(this)">IT 및 개발</button>
+              <button type="button" class="chip-btn" data-interest="문화 및 예술" onclick="toggleInterestChip(this)">문화 및 예술</button>
+              <button type="button" class="chip-btn" data-interest="봉사활동" onclick="toggleInterestChip(this)">봉사활동</button>
+            </div>
+            <div id="err-interests" class="field-error-msg">관심 분야를 최소 1개 이상 선택해 주세요.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-profile')">취소</button>
+          <button type="submit" class="btn btn-primary">저장 및 맞춤 정보 불러오기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Notice / Program Detail Modal -->
+  <div id="modal-notice-detail" class="modal-overlay">
+    <div class="modal-box" style="max-width:680px;">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-primary" id="modal-notice-cat">학사 공지</span>
+          <span class="badge badge-neutral" id="modal-notice-univ">성균관대학교</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-notice-detail')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3 id="modal-notice-title" style="font-size:18px; font-weight:800; color:var(--text-main); margin-bottom:8px; line-height:1.4;"></h3>
+        <div style="font-size:12.5px; color:var(--text-light); margin-bottom:18px; display:flex; gap:14px;">
+          <span>등록일: <strong id="modal-notice-date" style="color:var(--text-muted);">2026-11-20</strong></span>
+          <span>담당 부서: <strong id="modal-notice-dept" style="color:var(--text-muted);">교무처 학사팀</strong></span>
+        </div>
+        <div id="modal-notice-content" style="font-size:14px; color:#334155; line-height:1.7; margin-bottom:20px; white-space:pre-line; background:var(--bg-page); padding:16px; border-radius:var(--radius-md);"></div>
+
+        <div id="modal-program-apply-section" style="display:none; background:#ecfdf5; border:1px solid #a7f3d0; padding:16px; border-radius:var(--radius-md); margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <strong style="color:#065f46; font-size:14px;">프로그램 신청 안내</strong>
+            <span class="badge badge-success">접수중</span>
+          </div>
+          <p style="font-size:12.5px; color:#047857; margin-bottom:12px;">선착순 50명 마감 예정이며 참가자 전원에게 수료증 및 마일리지가 부여됩니다.</p>
+          <button class="btn btn-primary btn-sm" onclick="applyCampusProgram()">교내 프로그램 즉시 신청</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-notice-detail')">닫기</button>
+        <button type="button" class="btn btn-primary" onclick="simulateOfficialPortal()">학교 공식 포털 바로가기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Opportunity Detail Modal -->
+  <div id="modal-opp-detail" class="modal-overlay">
+    <div class="modal-box" style="max-width:680px;">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-primary" id="modal-opp-badge">공모전</span>
+          <span class="badge badge-danger" id="modal-opp-dday">D-7</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-opp-detail')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-opp-organizer" style="font-size:13px; color:var(--text-muted); font-weight:600; margin-bottom:4px;"></div>
+        <h3 id="modal-opp-title" style="font-size:20px; font-weight:800; color:var(--text-main); margin-bottom:16px; line-height:1.4;"></h3>
+        
+        <div style="background:var(--bg-page); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; margin-bottom:18px; display:flex; flex-direction:column; gap:8px; font-size:13px;">
+          <div><strong style="color:var(--text-main);">지원 자격:</strong> <span id="modal-opp-target"></span></div>
+          <div><strong style="color:var(--text-main);">접수 기간:</strong> <span id="modal-opp-period"></span></div>
+          <div><strong style="color:var(--text-main);">모집 분야:</strong> <span id="modal-opp-field"></span></div>
+        </div>
+
+        <div style="font-size:14px; line-height:1.7; color:#334155; margin-bottom:20px;" id="modal-opp-desc"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="modal-opp-bookmark-btn" onclick="toggleOppDetailBookmark()">즐겨찾기</button>
+        <button type="button" class="btn btn-primary" onclick="simulateApplyExternal()">주최측 공식 접수 페이지 가기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Add Lecture / Schedule Modal -->
+  <div id="modal-add-lecture" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">강의 및 주간 일정 추가</div>
+        <button class="modal-close" onclick="closeModal('modal-add-lecture')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="add-lecture-form" onsubmit="saveNewLecture(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">강의 / 일정명 <span class="req">*</span></label>
+            <input type="text" id="tt-input-title" class="form-control" placeholder="예: 인공지능개론, 동아리 정기회의" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">요일 <span class="req">*</span></label>
+            <select id="tt-input-day" class="form-control" required>
+              <option value="월">월요일</option>
+              <option value="화">화요일</option>
+              <option value="수">수요일</option>
+              <option value="목">목요일</option>
+              <option value="금">금요일</option>
+            </select>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label class="form-label">시작 시간 <span class="req">*</span></label>
+              <select id="tt-input-start" class="form-control" required>
+                <option value="09:00">09:00</option>
+                <option value="10:30">10:30</option>
+                <option value="12:00">12:00</option>
+                <option value="13:30">13:30</option>
+                <option value="15:00">15:00</option>
+                <option value="16:30">16:30</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">종료 시간 <span class="req">*</span></label>
+              <select id="tt-input-end" class="form-control" required>
+                <option value="10:30">10:30</option>
+                <option value="12:00">12:00</option>
+                <option value="13:30">13:30</option>
+                <option value="15:00">15:00</option>
+                <option value="16:30">16:30</option>
+                <option value="18:00">18:00</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">강의실 / 장소 메모</label>
+            <input type="text" id="tt-input-loc" class="form-control" placeholder="예: IT관 402호, 학생회관">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-add-lecture')">취소</button>
+          <button type="submit" class="btn btn-primary">시간표에 등록</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. Add Study Task / Exam Modal -->
+  <div id="modal-add-task" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">과제 및 시험 일정 등록</div>
+        <button class="modal-close" onclick="closeModal('modal-add-task')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="add-task-form" onsubmit="saveNewTask(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">과제 / 시험명 <span class="req">*</span></label>
+            <input type="text" id="task-input-title" class="form-control" placeholder="예: 운영체제 가상메모리 과제 제출" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">유형 <span class="req">*</span></label>
+            <select id="task-input-type" class="form-control" required>
+              <option value="과제">과제</option>
+              <option value="시험">중간/기말 시험</option>
+              <option value="프로젝트">팀 프로젝트</option>
+              <option value="발표">개인 발표</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">마감일 <span class="req">*</span></label>
+            <input type="date" id="task-input-date" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-add-task')">취소</button>
+          <button type="submit" class="btn btn-primary">등록하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. Create Community Post Modal -->
+  <div id="modal-write-post" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">새 커뮤니티 글 작성</div>
+        <button class="modal-close" onclick="closeModal('modal-write-post')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="write-post-form" onsubmit="saveNewCommunityPost(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">게시판 선택 <span class="req">*</span></label>
+            <select id="post-input-board" class="form-control" required>
+              <option value="free">자유게시판</option>
+              <option value="school" id="post-opt-school">학교별 게시판 (우리학교)</option>
+              <option value="major">학과별 게시판</option>
+              <option value="qna">학교생활 질문 (Q&A)</option>
+              <option value="study">스터디 모집</option>
+              <option value="project">팀 프로젝트 팀원 모집</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">글 제목 <span class="req">*</span></label>
+            <input type="text" id="post-input-title" class="form-control" placeholder="제목을 입력하세요" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">내용 <span class="req">*</span></label>
+            <textarea id="post-input-content" class="form-control" rows="5" placeholder="깨끗하고 서로를 배려하는 대학생 커뮤니티를 함께 만들어요." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-write-post')">취소</button>
+          <button type="submit" class="btn btn-primary">게시글 등록</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. Post Detail & Comment Modal -->
+  <div id="modal-post-detail" class="modal-overlay">
+    <div class="modal-box" style="max-width:680px;">
+      <div class="modal-header">
+        <span class="badge badge-primary" id="detail-post-board">자유게시판</span>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-secondary btn-sm" id="detail-post-delete-btn" style="display:none;" onclick="deleteCurrentPost()">삭제</button>
+          <button class="modal-close" onclick="closeModal('modal-post-detail')">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <div class="user-avatar" id="detail-post-avatar" style="width:36px; height:36px; font-size:14px;">익</div>
+          <div>
+            <div id="detail-post-author" style="font-size:14px; font-weight:700;">익명 메이트</div>
+            <div id="detail-post-time" style="font-size:12px; color:var(--text-light);">방금 전</div>
+          </div>
+        </div>
+        <h3 id="detail-post-title" style="font-size:18px; font-weight:800; color:var(--text-main); margin-bottom:12px;"></h3>
+        <p id="detail-post-body" style="font-size:14px; color:#334155; line-height:1.7; margin-bottom:20px; white-space:pre-line;"></p>
+
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+          <button class="btn btn-secondary btn-sm" id="detail-post-like-btn" onclick="togglePostLike()">
+            ❤️ 좋아요 <span id="detail-post-like-count">0</span>
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="reportContent('게시글')">🚩 신고</button>
+        </div>
+
+        <!-- Comments Section -->
+        <div style="border-top:1px solid var(--border); padding-top:18px;">
+          <h4 style="font-size:14px; font-weight:700; margin-bottom:12px;">댓글 (<span id="detail-post-comment-count">0</span>)</h4>
+          <div id="detail-comments-list" style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;"></div>
+
+          <form onsubmit="submitComment(event)" style="display:flex; gap:8px;">
+            <input type="text" id="comment-input" class="form-control" placeholder="댓글을 작성해 보세요..." required>
+            <button type="submit" class="btn btn-primary btn-sm" style="white-space:nowrap;">등록</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Create Bapyak (Meal Mate) Modal -->
+  <div id="modal-create-bapyak" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">밥약 메이트 모집글 작성</div>
+        <button class="modal-close" onclick="closeModal('modal-create-bapyak')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="create-bapyak-form" onsubmit="saveNewBapyak(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">모집 제목 <span class="req">*</span></label>
+            <input type="text" id="bapyak-input-title" class="form-control" placeholder="예: 오늘 점심 정문 마라탕 드실 2분 구해요!" required>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label class="form-label">식사 날짜 <span class="req">*</span></label>
+              <input type="date" id="bapyak-input-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">식사 시간 <span class="req">*</span></label>
+              <input type="time" id="bapyak-input-time" class="form-control" value="12:30" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">희망 장소 또는 지역 <span class="req">*</span></label>
+            <input type="text" id="bapyak-input-loc" class="form-control" placeholder="예: 학생회관 지하식당, 정문 파스타거리" required>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label class="form-label">선호 음식 종류 <span class="req">*</span></label>
+              <select id="bapyak-input-food" class="form-control" required>
+                <option value="한식">한식</option>
+                <option value="일식">일식/돈카츠</option>
+                <option value="중식">중식/마라탕</option>
+                <option value="양식">양식/파스타</option>
+                <option value="분식/패스트푸드">분식/패스트푸드</option>
+                <option value="카페/디저트">카페/디저트</option>
+                <option value="기타">기타 메뉴</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">모집 인원 (2~6명) <span class="req">*</span></label>
+              <select id="bapyak-input-headcount" class="form-control" required>
+                <option value="2">2명 (1:1 식사)</option>
+                <option value="3">3명</option>
+                <option value="4" selected>4명</option>
+                <option value="5">5명</option>
+                <option value="6">6명</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">모집글 소개 및 자기소개 <span class="req">*</span></label>
+            <textarea id="bapyak-input-intro" class="form-control" rows="3" placeholder="메뉴 취향, 간단한 소개를 남겨주세요 (개인 연락처는 공개글에 적지 마세요)." required></textarea>
+          </div>
+          <p style="font-size:12px; color:var(--text-light);">
+            🔒 개인정보 보호 안내: 개인 연락처나 카카오톡 ID는 공개글에 기재하지 마세요. 참여 승인 후 안전하게 연결됩니다.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-bapyak')">취소</button>
+          <button type="submit" class="btn btn-primary">밥약 모집 등록</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 9. Bapyak Detail & Apply Modal -->
+  <div id="modal-bapyak-detail" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-success" id="detail-bapyak-status">모집중</span>
+          <span class="badge badge-neutral" id="detail-bapyak-food">한식</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-bapyak-detail')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3 id="detail-bapyak-title" style="font-size:18px; font-weight:800; color:var(--text-main); margin-bottom:12px;"></h3>
+        
+        <div class="bapyak-host" style="border-top:none; padding-top:0;">
+          <div class="bapyak-host-avatar" id="detail-bapyak-avatar">호</div>
+          <div class="bapyak-host-info">
+            <div class="name" id="detail-bapyak-hostname">호스트 닉네임</div>
+            <div class="meta" id="detail-bapyak-hostmeta">성균관대학교 소프트웨어학과</div>
+          </div>
+        </div>
+
+        <div class="bapyak-details" style="margin-bottom:16px;">
+          <div class="bapyak-details-row">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span id="detail-bapyak-datetime">2026-11-22 12:30</span>
+          </div>
+          <div class="bapyak-details-row">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span id="detail-bapyak-location">정문 마라탕 골목</span>
+          </div>
+          <div class="bapyak-details-row">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span id="detail-bapyak-headcount">현재 2명 / 총 4명</span>
+          </div>
+        </div>
+
+        <p id="detail-bapyak-intro" style="font-size:13.5px; color:#334155; line-height:1.6; margin-bottom:18px;"></p>
+
+        <!-- Applicants section for host -->
+        <div id="bapyak-applicants-area" style="display:none; background:var(--bg-page); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
+          <h5 style="font-size:13px; font-weight:700; margin-bottom:8px;">참여 신청자 관리 (호스트 전용)</h5>
+          <div id="bapyak-applicants-list"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="reportContent('밥약')">신고 및 차단</button>
+        <button type="button" class="btn btn-primary" id="detail-bapyak-action-btn" onclick="applyToCurrentBapyak()">참여 신청하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================================================
+       UniMate Integrated State & Initial Data
+    ===================================================================== */
+
+    // 1. Initial State
+    const DEFAULT_PROFILE = {
+      nickname: "민우",
+      university: "성균관대학교",
+      department: "소프트웨어학과",
+      grade: "3학년",
+      interests: ["IT 및 개발", "공모전", "취업 및 진로"]
+    };
+
+    let currentUser = JSON.parse(localStorage.getItem("unimate_profile")) || DEFAULT_PROFILE;
+
+    // 2. Campus Notices Seed Data
+    let campusNotices = JSON.parse(localStorage.getItem("unimate_notices")) || [
+      {
+        id: 1,
+        univ: "성균관대학교",
+        category: "학사 공지",
+        dept: "교무처 학사팀",
+        date: "2026-11-20",
+        title: "2026학년도 겨울계절수업 수강신청 및 폐강 기준 안내",
+        content: `2026학년도 겨울계절수업 수강신청 일정을 아래와 같이 안내합니다.\n\n1. 수강신청 기간: 2026. 11. 24(월) 10:00 ~ 11. 26(수) 17:00\n2. 수강료 납부: 2026. 12. 01(월) ~ 12. 03(수)\n3. 수업 기간: 2026. 12. 22(월) ~ 2027. 01. 12(월)\n\n* 신청 학점은 최대 6학점까지 가능하며, 1차 폐강 과목은 11월 27일 공지됩니다.`,
+        isProgram: false
+      },
+      {
+        id: 2,
+        univ: "성균관대학교",
+        category: "장학 공지",
+        dept: "학생지원팀",
+        date: "2026-11-19",
+        title: "2026-2학기 동문선배 멘토링 장학금 추가 신청 접수",
+        content: `선배 동문 후원으로 운영되는 2026-2학기 생활비 지원 장학생을 선발합니다.\n\n- 지원 금액: 1인당 150만원(생활비 지원성)\n- 신청 자격: 직전 학기 평점 3.0 이상 학부 재학생 (소득분위 8구간 이하 우선 선발)\n- 접수 기한: 2026. 11. 30(일) 23:59까지\n- 제출 서류: 장학신청서, 성적증명서, 학업계획서 각 1부`,
+        isProgram: false
+      },
+      {
+        id: 3,
+        univ: "성균관대학교",
+        category: "교내 프로그램",
+        dept: "SW중심대학사업단",
+        date: "2026-11-18",
+        title: "2026 동계 SW·AI 현직자 멘토링 캠프 참가자 모집",
+        content: `구글, 카카오, 네이버 현직 개발자와 함께하는 2박 3일 해커톤 & 멘토링 캠프가 열립니다.\n\n- 일시: 2026. 12. 26(금) ~ 12. 28(일)\n- 모집 인원: 선착순 50명 (전공 무관)\n- 혜택: 전액 무료 지원, 우수팀 사업단장상 및 상금 200만원, 수료증 수여\n- 접수 기간: 2026. 11. 18 ~ 11. 28`,
+        isProgram: true
+      },
+      {
+        id: 4,
+        univ: "성균관대학교",
+        category: "취업 및 진로",
+        dept: "대학일자리플러스센터",
+        date: "2026-11-17",
+        title: "하반기 대기업·스타트업 직무 박람회 및 1:1 취업 컨설팅",
+        content: `캠퍼스 잔디광장 및 경영관 1층에서 20개 기업 인사담당자가 직접 참여하는 취업박람회가 개최됩니다. 모의 면접 및 영문 이력서 첨삭 부스도 함께 운영됩니다.`,
+        isProgram: true
+      },
+      {
+        id: 5,
+        univ: "서울대학교",
+        category: "학사 공지",
+        dept: "교무처",
+        date: "2026-11-20",
+        title: "2027학년도 1학기 복수전공/부전공 선발 계획 공고",
+        content: `2027학년도 1학기 다전공(복수/부전공/연계전공) 선발 일정을 사전 공고합니다. 세부 사정기준은 각 단과대학 행정실 공지사항을 확인하시기 바랍니다.`,
+        isProgram: false
+      },
+      {
+        id: 6,
+        univ: "연세대학교",
+        category: "교내 프로그램",
+        dept: "창업지원단",
+        date: "2026-11-19",
+        title: "대학생 청년 창업 인큐베이팅 동아리 8기 모집",
+        content: `창업 아이디어를 시제품으로 구현할 수 있도록 팀당 최대 500만원의 활동비와 전용 오피스를 지원합니다.`,
+        isProgram: true
+      }
+    ];
+
+    // 3. Opportunities Seed Data
+    let opportunities = JSON.parse(localStorage.getItem("unimate_opps")) || [
+      {
+        id: 101,
+        title: "2026 대한민국 대학생 디지털 혁신 AI·SW 아이디어 해커톤",
+        organizer: "과학기술정보통신부 & 한국정보통신기술협회",
+        category: "공모전",
+        field: "IT 및 개발",
+        target: "전국 2~4년제 대학교 재·휴학생 (개인 또는 4인 이하 팀)",
+        period: "2026. 11. 01 ~ 11. 28",
+        dday: "D-7",
+        ddayNum: 7,
+        desc: "생성형 AI와 클라우드 기술을 활용하여 일상 속 문제를 해결하는 혁신 웹/앱 서비스 기획 및 프로토타입 구현 공모전. 대상 1,500만원 수여.",
+        bookmarked: true
+      },
+      {
+        id: 102,
+        title: "제14회 K-스타트업 청년 창업 경진대회 대학생 리그",
+        organizer: "중소벤처기업부 & 창업진흥원",
+        category: "창업",
+        field: "취업 및 진로",
+        target: "예비 창업자 및 대학생 창업동아리",
+        period: "2026. 11. 10 ~ 12. 05",
+        dday: "D-14",
+        ddayNum: 14,
+        desc: "실제 사업화 가능성이 높은 유망 창업 아이템을 발굴하여 시제품 제작비 및 엑셀러레이터 투자 연계를 원스톱으로 지원합니다.",
+        bookmarked: false
+      },
+      {
+        id: 103,
+        title: "2026 글로벌 지속가능 마케팅 전략 & 콘텐츠 크리에이터 어워드",
+        organizer: "글로벌소비재협회 & 대한무역투자진흥공사",
+        category: "공모전",
+        field: "문화 및 예술",
+        target: "전국 대학생 및 대학원생",
+        period: "2026. 11. 15 ~ 11. 24",
+        dday: "D-3",
+        ddayNum: 3,
+        desc: "ESG 가치 소비를 촉진하는 숏폼 영상 및 브랜드 마케팅 전략 기획. 수상자 해외 본사 탐방 기회 및 인턴십 서류 면제 혜택 부여.",
+        bookmarked: true
+      },
+      {
+        id: 104,
+        title: "2026 하반기 글로벌 청년 해외 봉사단 & 문화교류 서포터즈",
+        organizer: "한국국제협력단 (KOICA)",
+        category: "대외활동",
+        field: "봉사활동",
+        target: "해외 활동에 결격사유가 없는 국내 대학생",
+        period: "2026. 11. 05 ~ 11. 30",
+        dday: "D-9",
+        ddayNum: 9,
+        desc: "동남아 및 중남미 파견 교육봉사, ICT 디지털 교육 지원. 왕복 항공료 및 현지 체재비 전액 국비 지원.",
+        bookmarked: false
+      },
+      {
+        id: 105,
+        title: "전국 대학생 금융·핀테크 미래 리더 아카데미 6기",
+        organizer: "금융감독원 & 한국금융연수원",
+        category: "외부 교육",
+        field: "취업 및 진로",
+        target: "금융권 취업 및 데이터 분석에 관심 있는 대학생",
+        period: "2026. 11. 12 ~ 12. 10",
+        dday: "D-19",
+        ddayNum: 19,
+        desc: "금융 데이터 모델링, 알고리즘 트레이딩, 핀테크 규제 샌드박스 등 실무 중심 교육과 은행권 실무자 1:1 멘토링.",
+        bookmarked: false
+      },
+      {
+        id: 106,
+        title: "2026 전국 대학생 학술연구논문 장학 지원사업",
+        organizer: "한국장학재단",
+        category: "장학금",
+        field: "전공 및 학업",
+        target: "국내 대학 이공계 및 인문사회계열 학부생",
+        period: "2026. 11. 01 ~ 12. 15",
+        dday: "D-24",
+        ddayNum: 24,
+        desc: "우수 학술 연구논문 투고 장학생 선발, 편당 300만원의 장학금과 국내외 저명 학회지 게재 비용 전액 지원.",
+        bookmarked: false
+      }
+    ];
+
+    // 4. Study Tasks & Lectures Seed Data
+    let studyTasks = JSON.parse(localStorage.getItem("unimate_tasks")) || [
+      { id: 1, title: "자료구조 B-Tree 알고리즘 구현 과제 제출", type: "과제", date: "2026-11-23", dday: "D-2", done: false },
+      { id: 2, title: "데이터베이스 기말 퀴즈 대비 정리", type: "시험", date: "2026-11-28", dday: "D-7", done: false },
+      { id: 3, title: "오픈소스SW 텀프로젝트 Pull Request 제출", type: "과제", date: "2026-12-05", dday: "D-14", done: true }
+    ];
+
+    let timetableLectures = JSON.parse(localStorage.getItem("unimate_timetable")) || [
+      { id: 1, title: "자료구조론", day: "월", start: "10:30", end: "12:00", loc: "IT관 301호", color: "#dbeafe", border: "#2563eb" },
+      { id: 2, title: "데이터베이스", day: "월", start: "13:30", end: "15:00", loc: "공학관 204호", color: "#e0e7ff", border: "#4f46e5" },
+      { id: 3, title: "컴퓨터네트워크", day: "화", start: "09:00", end: "10:30", loc: "IT관 402호", color: "#fef3c7", border: "#d97706" },
+      { id: 4, title: "알고리즘실습", day: "화", start: "13:30", end: "16:30", loc: "코딩랩 1호", color: "#fce7f3", border: "#db2777" },
+      { id: 5, title: "자료구조론", day: "수", start: "10:30", end: "12:00", loc: "IT관 301호", color: "#dbeafe", border: "#2563eb" },
+      { id: 6, title: "오픈소스SW기초", day: "수", start: "15:00", end: "16:30", loc: "산학협력관 102", color: "#dcfce7", border: "#16a34a" },
+      { id: 7, title: "컴퓨터네트워크", day: "목", start: "09:00", end: "10:30", loc: "IT관 402호", color: "#fef3c7", border: "#d97706" },
+      { id: 8, title: "캡스톤디자인 멘토링", day: "금", start: "13:30", end: "15:00", loc: "도서관 스터디룸", color: "#ede9fe", border: "#7c3aed" }
+    ];
+
+    // 5. Community Posts Seed Data
+    let communityPosts = JSON.parse(localStorage.getItem("unimate_posts")) || [
+      {
+        id: 201,
+        board: "free",
+        boardName: "자유게시판",
+        author: "도서관죽돌이",
+        univ: "성균관대학교",
+        dept: "경영학과",
+        time: "15분 전",
+        title: "중도 3층 노트북 열람실 자리 있나요?",
+        content: "지금 과제 제출 마감이라 가려는데 주말이라 혹시 만석인지 아시는 분 계신가요?",
+        likes: 4,
+        isLiked: false,
+        comments: [
+          { author: "코딩꿈나무", text: "방금 왔는데 창가쪽 4자리 정도 비어있어요!", time: "10분 전" }
+        ]
+      },
+      {
+        id: 202,
+        board: "school",
+        boardName: "학교별 게시판",
+        author: "율전새내기",
+        univ: "성균관대학교",
+        dept: "소프트웨어학과",
+        time: "1시간 전",
+        title: "겨울 계절학기 자료구조론 교수님 강의평 어떤가요?",
+        content: "계절로 미리 들어두려고 하는데 학점 잘 주시는 편인지 궁금합니다. 조언 부탁드려요!",
+        likes: 7,
+        isLiked: false,
+        comments: [
+          { author: "과탑지망생", text: "과제 난이도가 조금 있지만 시험은 수업시간에 짚어주신 곳에서 거의 다 나옵니다.", time: "45분 전" },
+          { author: "민우", text: "실습 과제 꼬박꼬박 내시면 성적 잘 나와요 화이팅입니다!", time: "30분 전" }
+        ]
+      },
+      {
+        id: 203,
+        board: "study",
+        boardName: "스터디 모집",
+        author: "알고리즘마스터",
+        univ: "성균관대학교",
+        dept: "전자전기공학부",
+        time: "3시간 전",
+        title: "[모집] 코딩테스트 골드 달성 백준/프로그래머스 스터디 (주 3회)",
+        content: "매주 월수금 밤 9시 디스코드로 1문제씩 라이브 풀이 및 코드리뷰 하실 열정 있는 3분 모집합니다. 현재 2명입니다.",
+        likes: 12,
+        isLiked: true,
+        comments: [
+          { author: "파이썬초보", text: "실버 2인데 참여 가능할까요?", time: "2시간 전" }
+        ]
+      }
+    ];
+
+    // 6. Bapyak (Meal Mate) Seed Data
+    let bapyakPosts = JSON.parse(localStorage.getItem("unimate_bapyak")) || [
+      {
+        id: 301,
+        title: "오늘 점심 12시 30분 쪽문 마라탕 같이 드실 분! (꿔바로우 나눔)",
+        date: "2026-11-21",
+        time: "12:30",
+        location: "쪽문 라화쿵부 앞",
+        food: "중식",
+        headcountCurrent: 2,
+        headcountMax: 4,
+        status: "recruiting",
+        hostName: "민우",
+        hostUniv: "성균관대학교",
+        hostDept: "소프트웨어학과",
+        intro: "마라탕 2단계 먹을 예정이고 꿔바로우 대자 시켜서 1/N 해요! 편하게 이야기하면서 밥 먹어요.",
+        applicants: [
+          { name: "밥친구구함", dept: "통계학과", msg: "저 마라탕 완전 좋아해요! 꿔바로우 같이 먹어요ㅎㅎ", approved: true },
+          { name: "새내기컴공", dept: "소프트웨어학과", msg: "선배님 과제 질문도 살짝 드리고 싶습니다!", approved: false }
+        ]
+      },
+      {
+        id: 302,
+        title: "정문 카레 전문점 점심 식사 메이트 구합니다 🍛",
+        date: "2026-11-22",
+        time: "13:00",
+        location: "정문 카레야 2층",
+        food: "일식",
+        headcountCurrent: 3,
+        headcountMax: 3,
+        status: "completed",
+        hostName: "수현",
+        hostUniv: "성균관대학교",
+        hostDept: "경영학과",
+        intro: "수업 끝나고 혼밥하기 쓸쓸해서 올립니다! 조용조용하게 편한 식사 원하시는 분 환영해요.",
+        applicants: [
+          { name: "도서관지기", dept: "경제학과", msg: "참여하고 싶습니다!", approved: true },
+          { name: "나그네", dept: "인문과학계열", msg: "시간 딱 맞네요!", approved: true }
+        ]
+      },
+      {
+        id: 303,
+        title: "학식 2층 양식코너 돈가스 드실 동기·선배님 계신가요?",
+        date: "2026-11-23",
+        time: "12:00",
+        location: "학생회관 2층 학생식당 입구",
+        food: "양식",
+        headcountCurrent: 1,
+        headcountMax: 3,
+        status: "recruiting",
+        hostName: "지훈",
+        hostUniv: "성균관대학교",
+        hostDept: "화학공학과",
+        intro: "학식 돈가스 오늘 특식인데 같이 줄 서서 맛있게 먹고 카페 커피 한잔해요!",
+        applicants: []
+      }
+    ];
+
+    // =====================================================================
+    // Navigation & View Switching
+    // =====================================================================
+    function switchView(viewName) {
+      document.querySelectorAll(".view-section").forEach(sec => sec.classList.remove("active"));
+      document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+
+      const targetSec = document.getElementById("view-" + viewName);
+      if (targetSec) targetSec.classList.add("active");
+
+      const navItem = document.querySelector(`.nav-item[data-view="${viewName}"]`);
+      if (navItem) navItem.classList.add("active");
+
+      // Update Topbar Title
+      const titleMap = {
+        home: "홈 (대학생활 통합 대시보드)",
+        campus: "캠퍼스 (학교별 공지사항 & 교내 프로그램)",
+        opportunities: "공모전 & 대외활동 탐색",
+        study: "학습 관리 & 주간 시간표",
+        community: "대학생 커뮤니티",
+        bapyak: "밥약 (캠퍼스 식사 메이트)",
+        mypage: "마이페이지 (내 정보 & 즐겨찾기)"
+      };
+      document.getElementById("topbar-title").textContent = titleMap[viewName] || "UniMate";
+
+      // Render fresh data for view
+      if (viewName === "home") renderHomeDashboard();
+      if (viewName === "campus") renderCampusNotices();
+      if (viewName === "opportunities") renderOpportunities();
+      if (viewName === "study") renderStudyView();
+      if (viewName === "community") renderCommunityPosts();
+      if (viewName === "bapyak") renderBapyakList();
+      if (viewName === "mypage") renderMyPageView();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // =====================================================================
+    // User Profile Management & Onboarding
+    // =====================================================================
+    function syncUserUI() {
+      document.getElementById("sidebar-user-name").textContent = currentUser.nickname;
+      document.getElementById("sidebar-user-univ").textContent = `${currentUser.university} ${currentUser.department}`;
+      document.getElementById("sidebar-user-avatar").textContent = currentUser.nickname.charAt(0);
+
+      document.getElementById("topbar-univ-name").textContent = currentUser.university;
+      document.getElementById("campus-univ-selector").value = currentUser.university;
+      document.getElementById("board-school-name").textContent = `${currentUser.university} 전용`;
+      document.getElementById("post-opt-school").textContent = `${currentUser.university} 전용 게시판`;
+
+      // Home welcome message
+      const welcomeMsg = document.getElementById("home-welcome-msg");
+      if (welcomeMsg) welcomeMsg.textContent = `안녕하세요, ${currentUser.nickname} 메이트님! 🎓`;
+      
+      const welcomeSub = document.getElementById("home-welcome-sub");
+      if (welcomeSub) welcomeSub.textContent = `${currentUser.university} ${currentUser.department} ${currentUser.grade}에 맞춘 스마트 캠퍼스 라이프를 시작해 보세요.`;
+
+      // Banner Interest tags
+      const bannerTags = document.getElementById("home-interest-tags");
+      if (bannerTags) {
+        bannerTags.innerHTML = currentUser.interests.map(i => `<span class="banner-tag">#${i}</span>`).join("");
+      }
+    }
+
+    function openProfileModal() {
+      document.getElementById("input-nickname").value = currentUser.nickname;
+      document.getElementById("input-university").value = currentUser.university;
+      document.getElementById("input-department").value = currentUser.department;
+      document.getElementById("input-grade").value = currentUser.grade;
+
+      // Select chips
+      document.querySelectorAll("#interest-chips-container .chip-btn").forEach(btn => {
+        const val = btn.getAttribute("data-interest");
+        if (currentUser.interests.includes(val)) {
+          btn.classList.add("selected");
+        } else {
+          btn.classList.remove("selected");
+        }
+      });
+
+      clearProfileErrors();
+      openModal("modal-profile");
+    }
+
+    function toggleInterestChip(btn) {
+      btn.classList.toggle("selected");
+    }
+
+    function clearProfileErrors() {
+      document.querySelectorAll(".field-error-msg").forEach(el => el.classList.remove("visible"));
+      document.querySelectorAll(".form-control").forEach(el => el.classList.remove("has-error"));
+    }
+
+    function saveUserProfile(e) {
+      e.preventDefault();
+      clearProfileErrors();
+
+      const nick = document.getElementById("input-nickname").value.trim();
+      const univ = document.getElementById("input-university").value;
+      const dept = document.getElementById("input-department").value.trim();
+      const grade = document.getElementById("input-grade").value;
+
+      const selectedInterests = [];
+      document.querySelectorAll("#interest-chips-container .chip-btn.selected").forEach(btn => {
+        selectedInterests.push(btn.getAttribute("data-interest"));
+      });
+
+      // UX Validation: Strict check & point out missing items
+      let hasError = false;
+      if (!nick) {
+        document.getElementById("err-nickname").classList.add("visible");
+        document.getElementById("input-nickname").classList.add("has-error");
+        hasError = true;
+      }
+      if (!univ) {
+        document.getElementById("err-university").classList.add("visible");
+        document.getElementById("input-university").classList.add("has-error");
+        hasError = true;
+      }
+      if (!dept) {
+        document.getElementById("err-department").classList.add("visible");
+        document.getElementById("input-department").classList.add("has-error");
+        hasError = true;
+      }
+      if (selectedInterests.length === 0) {
+        document.getElementById("err-interests").classList.add("visible");
+        hasError = true;
+      }
+
+      if (hasError) {
+        showToast("입력하지 않은 필수 항목이 있습니다. 표시된 항목을 확인해주세요.", "error");
+        return;
+      }
+
+      currentUser = {
+        nickname: nick,
+        university: univ,
+        department: dept,
+        grade: grade,
+        interests: selectedInterests
+      };
+
+      localStorage.setItem("unimate_profile", JSON.stringify(currentUser));
+      closeModal("modal-profile");
+      syncUserUI();
+      renderHomeDashboard();
+      renderCampusNotices();
+      renderOpportunities();
+      showToast("프로필이 성공적으로 저장되었습니다!", "success");
+    }
+
+    // =====================================================================
+    // 1. Home Dashboard View Logic
+    // =====================================================================
+    function renderHomeDashboard() {
+      // 1. Notices on Home (Filtered by user's university first)
+      const homeNoticesList = document.getElementById("home-notices-list");
+      const matchedNotices = campusNotices.filter(n => n.univ === currentUser.university || n.univ === "전체");
+      const displayNotices = matchedNotices.slice(0, 4);
+
+      if (displayNotices.length === 0) {
+        homeNoticesList.innerHTML = `<div style="padding:20px; text-align:center; color:var(--text-light); font-size:13px;">등록된 공지사항이 없습니다.</div>`;
+      } else {
+        homeNoticesList.innerHTML = displayNotices.map(n => `
+          <div class="notice-mini-item" onclick="openNoticeDetail(${n.id})">
+            <span class="badge ${n.category === '교내 프로그램' ? 'badge-success' : 'badge-primary'}">${n.category}</span>
+            <div style="flex:1;">
+              <div class="notice-title">${escapeHtml(n.title)}</div>
+              <div class="notice-date">${n.date} · ${n.dept}</div>
+            </div>
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text-light);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        `).join("");
+      }
+
+      // 2. Study Tasks on Home
+      const homeTodoList = document.getElementById("home-todo-list");
+      homeTodoList.innerHTML = studyTasks.slice(0, 3).map(t => `
+        <div class="todo-item">
+          <div class="todo-left">
+            <input type="checkbox" class="todo-checkbox" ${t.done ? "checked" : ""} onchange="toggleTaskDone(${t.id})">
+            <span class="todo-text ${t.done ? "done" : ""}">${escapeHtml(t.title)}</span>
+          </div>
+          <span class="badge ${t.done ? 'badge-neutral' : 'badge-danger'}">${t.done ? '완료' : t.dday}</span>
+        </div>
+      `).join("");
+
+      // 3. Recommended Opportunities
+      const homeOppList = document.getElementById("home-opp-list");
+      // Prioritize user's interests
+      const matchedOpps = opportunities.filter(o => currentUser.interests.includes(o.field) || currentUser.interests.includes(o.category));
+      const oppListToShow = (matchedOpps.length > 0 ? matchedOpps : opportunities).slice(0, 3);
+
+      homeOppList.innerHTML = oppListToShow.map(o => `
+        <div style="padding:12px; background:var(--bg-page); border:1px solid var(--border); border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openOppDetail(${o.id})">
+          <div style="flex:1; margin-right:12px;">
+            <div style="font-size:11px; color:var(--text-muted);">${o.organizer}</div>
+            <div style="font-size:13.5px; font-weight:700; color:var(--text-main); line-height:1.3; margin:2px 0;">${escapeHtml(o.title)}</div>
+            <div style="font-size:11.5px; color:var(--text-light);">${o.period}</div>
+          </div>
+          <span class="badge badge-danger">${o.dday}</span>
+        </div>
+      `).join("");
+
+      // 4. Active Bapyak on Home
+      const homeBapyakList = document.getElementById("home-bapyak-list");
+      const activeBapyak = bapyakPosts.filter(b => b.status === "recruiting").slice(0, 2);
+      if (activeBapyak.length === 0) {
+        homeBapyakList.innerHTML = `<div style="font-size:13px; color:var(--text-light); text-align:center; padding:16px;">현재 모집 중인 밥약이 없습니다.</div>`;
+      } else {
+        homeBapyakList.innerHTML = activeBapyak.map(b => `
+          <div style="padding:12px 14px; background:var(--bg-page); border:1px solid var(--border); border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openBapyakDetail(${b.id})">
+            <div>
+              <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+                <span class="badge badge-success">${b.food}</span>
+                <span style="font-size:12px; font-weight:700; color:var(--text-main);">${escapeHtml(b.title)}</span>
+              </div>
+              <div style="font-size:11.5px; color:var(--text-muted);">${b.date} ${b.time} · ${escapeHtml(b.location)}</div>
+            </div>
+            <span class="badge badge-primary">${b.headcountCurrent}/${b.headcountMax}명</span>
+          </div>
+        `).join("");
+      }
+
+      // 5. Community Posts on Home
+      const homeCommList = document.getElementById("home-community-list");
+      homeCommList.innerHTML = communityPosts.slice(0, 3).map(p => `
+        <div style="padding:10px 0; border-bottom:1px solid var(--border); cursor:pointer;" onclick="openPostDetail(${p.id})">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-light); margin-bottom:2px;">
+            <span>[${p.boardName}] ${p.author}</span>
+            <span>${p.time}</span>
+          </div>
+          <div style="font-size:13.5px; font-weight:600; color:var(--text-main);">${escapeHtml(p.title)}</div>
+        </div>
+      `).join("");
+    }
+
+    // =====================================================================
+    // 2. Campus View Logic
+    // =====================================================================
+    let currentCampusCategory = "전체";
+
+    function changeCampusUniv(univ) {
+      currentUser.university = univ;
+      localStorage.setItem("unimate_profile", JSON.stringify(currentUser));
+      syncUserUI();
+      renderCampusNotices();
+      renderHomeDashboard();
+      showToast(`${univ} 공지사항으로 전환되었습니다.`, "info");
+    }
+
+    function filterCampusCategory(cat, btn) {
+      currentCampusCategory = cat;
+      document.querySelectorAll("#view-campus .filter-chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderCampusNotices();
+    }
+
+    function renderCampusNotices() {
+      const container = document.getElementById("campus-notices-container");
+      const searchKeyword = document.getElementById("campus-search-input").value.trim().toLowerCase();
+
+      let filtered = campusNotices.filter(n => n.univ === currentUser.university || n.univ === "전체");
+
+      if (currentCampusCategory !== "전체") {
+        filtered = filtered.filter(n => n.category === currentCampusCategory);
+      }
+
+      if (searchKeyword) {
+        filtered = filtered.filter(n => n.title.toLowerCase().includes(searchKeyword) || n.content.toLowerCase().includes(searchKeyword));
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="card" style="text-align:center; padding:48px 24px; color:var(--text-muted);">
+            <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin:0 auto 12px; color:var(--text-light);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <h4 style="font-size:16px; font-weight:700; margin-bottom:4px;">해당하는 공지사항이나 교내 프로그램이 없습니다</h4>
+            <p style="font-size:13px;">다른 카테고리를 선택하거나 검색어를 변경해 보세요.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(n => `
+        <div class="card" style="cursor:pointer;" onclick="openNoticeDetail(${n.id})">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="badge ${n.category === '교내 프로그램' ? 'badge-success' : 'badge-primary'}">${n.category}</span>
+              <span style="font-size:12px; color:var(--text-light);">${n.dept} · ${n.date}</span>
+            </div>
+            <span style="font-size:12px; color:var(--primary-light); font-weight:600;">상세보기 &rarr;</span>
+          </div>
+          <h4 style="font-size:16px; font-weight:700; color:var(--text-main); margin-bottom:8px; line-height:1.4;">${escapeHtml(n.title)}</h4>
+          <p style="font-size:13px; color:var(--text-muted); line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+            ${escapeHtml(n.content)}
+          </p>
+        </div>
+      `).join("");
+    }
+
+    function openNoticeDetail(id) {
+      const notice = campusNotices.find(n => n.id === id);
+      if (!notice) return;
+
+      document.getElementById("modal-notice-cat").textContent = notice.category;
+      document.getElementById("modal-notice-univ").textContent = notice.univ;
+      document.getElementById("modal-notice-title").textContent = notice.title;
+      document.getElementById("modal-notice-date").textContent = notice.date;
+      document.getElementById("modal-notice-dept").textContent = notice.dept;
+      document.getElementById("modal-notice-content").textContent = notice.content;
+
+      const programSection = document.getElementById("modal-program-apply-section");
+      if (notice.isProgram) {
+        programSection.style.display = "block";
+      } else {
+        programSection.style.display = "none";
+      }
+
+      openModal("modal-notice-detail");
+    }
+
+    function applyCampusProgram() {
+      showToast("교내 프로그램 신청이 접수되었습니다! 신청 내역은 마이페이지에서 확인 가능합니다.", "success");
+      closeModal("modal-notice-detail");
+    }
+
+    function simulateOfficialPortal() {
+      showToast(`${currentUser.university} 공식 포털 공지사항 페이지로 연결을 시뮬레이션합니다.`, "info");
+    }
+
+    // =====================================================================
+    // 3. Opportunities View Logic
+    // =====================================================================
+    let currentOppCategory = "전체";
+    let currentOppField = "all";
+    let activeOppDetail = null;
+
+    function filterOppCategory(cat, btn) {
+      currentOppCategory = cat;
+      document.querySelectorAll("#opp-cat-filters .filter-chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderOpportunities();
+    }
+
+    function filterOppField(field, btn) {
+      currentOppField = field;
+      document.querySelectorAll(".chips-select-wrap .chip-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      renderOpportunities();
+    }
+
+    function renderOpportunities() {
+      const container = document.getElementById("opp-grid-container");
+      const searchKeyword = document.getElementById("opp-search-input").value.trim().toLowerCase();
+      const sortBy = document.getElementById("opp-sort-select").value;
+
+      let filtered = [...opportunities];
+
+      if (currentOppCategory !== "전체") {
+        filtered = filtered.filter(o => o.category === currentOppCategory);
+      }
+
+      if (currentOppField !== "all") {
+        filtered = filtered.filter(o => o.field === currentOppField);
+      }
+
+      if (searchKeyword) {
+        filtered = filtered.filter(o => o.title.toLowerCase().includes(searchKeyword) || o.organizer.toLowerCase().includes(searchKeyword));
+      }
+
+      // Sort
+      if (sortBy === "dday") {
+        filtered.sort((a, b) => a.ddayNum - b.ddayNum);
+      } else if (sortBy === "latest") {
+        filtered.sort((a, b) => b.id - a.id);
+      } else if (sortBy === "popular") {
+        filtered.sort((a, b) => (b.bookmarked ? 1 : 0) - (a.bookmarked ? 1 : 0));
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1/-1; text-align:center; padding:48px 24px; color:var(--text-muted);" class="card">
+            <h4>검색 조건에 일치하는 공모전 및 대외활동이 없습니다.</h4>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(o => `
+        <div class="opp-card">
+          <div>
+            <div class="opp-top">
+              <span class="opp-organizer">${escapeHtml(o.organizer)}</span>
+              <span class="badge ${o.ddayNum <= 5 ? 'badge-danger' : 'badge-warning'}">${o.dday}</span>
+            </div>
+            <h4 class="opp-title">${escapeHtml(o.title)}</h4>
+            <p class="opp-desc">${escapeHtml(o.desc)}</p>
+            <div class="opp-meta">
+              <span><strong>대상:</strong> ${escapeHtml(o.target)}</span>
+              <span><strong>기간:</strong> ${o.period}</span>
+            </div>
+          </div>
+          <div class="opp-actions">
+            <button class="btn btn-primary btn-sm" style="flex:1;" onclick="openOppDetail(${o.id})">상세보기</button>
+            <button class="bookmark-btn ${o.bookmarked ? 'active' : ''}" onclick="toggleBookmark(${o.id}, event)" title="즐겨찾기">
+              <svg width="18" height="18" fill="${o.bookmarked ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function toggleBookmark(id, event) {
+      if (event) event.stopPropagation();
+      const opp = opportunities.find(o => o.id === id);
+      if (opp) {
+        opp.bookmarked = !opp.bookmarked;
+        localStorage.setItem("unimate_opps", JSON.stringify(opportunities));
+        renderOpportunities();
+        showToast(opp.bookmarked ? "즐겨찾기에 저장되었습니다." : "즐겨찾기에서 제거되었습니다.", "info");
+      }
+    }
+
+    function openOppDetail(id) {
+      const opp = opportunities.find(o => o.id === id);
+      if (!opp) return;
+
+      activeOppDetail = opp;
+      document.getElementById("modal-opp-badge").textContent = opp.category;
+      document.getElementById("modal-opp-dday").textContent = opp.dday;
+      document.getElementById("modal-opp-organizer").textContent = opp.organizer;
+      document.getElementById("modal-opp-title").textContent = opp.title;
+      document.getElementById("modal-opp-target").textContent = opp.target;
+      document.getElementById("modal-opp-period").textContent = opp.period;
+      document.getElementById("modal-opp-field").textContent = opp.field;
+      document.getElementById("modal-opp-desc").textContent = opp.desc;
+
+      const bmBtn = document.getElementById("modal-opp-bookmark-btn");
+      bmBtn.textContent = opp.bookmarked ? "★ 즐겨찾기 해제" : "☆ 즐겨찾기 저장";
+
+      openModal("modal-opp-detail");
+    }
+
+    function toggleOppDetailBookmark() {
+      if (activeOppDetail) {
+        activeOppDetail.bookmarked = !activeOppDetail.bookmarked;
+        localStorage.setItem("unimate_opps", JSON.stringify(opportunities));
+        const bmBtn = document.getElementById("modal-opp-bookmark-btn");
+        bmBtn.textContent = activeOppDetail.bookmarked ? "★ 즐겨찾기 해제" : "☆ 즐겨찾기 저장";
+        renderOpportunities();
+        showToast(activeOppDetail.bookmarked ? "즐겨찾기에 추가되었습니다." : "즐겨찾기에서 제거되었습니다.", "info");
+      }
+    }
+
+    function simulateApplyExternal() {
+      showToast("공식 주최사 원문 접수 사이트로 안전하게 연결됩니다.", "info");
+    }
+
+    // =====================================================================
+    // 4. Study View Logic (Timetable + Timer + Tasks + Survey)
+    // =====================================================================
+    function switchStudySubTab(tab) {
+      document.getElementById("study-sub-tt").style.display = tab === "tt" ? "block" : "none";
+      document.getElementById("study-sub-manage").style.display = tab === "manage" ? "block" : "none";
+      document.getElementById("study-sub-survey").style.display = tab === "survey" ? "block" : "none";
+
+      document.getElementById("study-tab-tt-btn").className = tab === "tt" ? "btn btn-primary" : "btn btn-secondary";
+      document.getElementById("study-tab-manage-btn").className = tab === "manage" ? "btn btn-primary" : "btn btn-secondary";
+      document.getElementById("study-tab-survey-btn").className = tab === "survey" ? "btn btn-primary" : "btn btn-secondary";
+    }
+
+    function renderStudyView() {
+      renderTimetable();
+      renderStudyTasks();
+    }
+
+    const TIME_SLOTS = ["09:00", "10:30", "12:00", "13:30", "15:00", "16:30"];
+    const DAYS = ["월", "화", "수", "목", "금"];
+
+    function renderTimetable() {
+      const grid = document.getElementById("timetable-matrix");
+      let html = `<div class="tt-header">시간</div>`;
+      DAYS.forEach(d => {
+        html += `<div class="tt-header">${d}요일</div>`;
+      });
+
+      TIME_SLOTS.forEach(time => {
+        html += `<div class="tt-time-cell">${time}</div>`;
+        DAYS.forEach(day => {
+          const lec = timetableLectures.find(l => l.day === day && l.start === time);
+          if (lec) {
+            html += `
+              <div class="tt-cell">
+                <div class="tt-lecture-block" style="background:${lec.color}; border-left-color:${lec.border};">
+                  <div class="tt-lecture-title">${escapeHtml(lec.title)}</div>
+                  <div class="tt-lecture-loc">${escapeHtml(lec.loc)}</div>
+                </div>
+              </div>
+            `;
+          } else {
+            html += `<div class="tt-cell tt-free-cell">공강</div>`;
+          }
+        });
+      });
+
+      grid.innerHTML = html;
+    }
+
+    function openAddLectureModal() {
+      openModal("modal-add-lecture");
+    }
+
+    function saveNewLecture(e) {
+      e.preventDefault();
+      const title = document.getElementById("tt-input-title").value.trim();
+      const day = document.getElementById("tt-input-day").value;
+      const start = document.getElementById("tt-input-start").value;
+      const end = document.getElementById("tt-input-end").value;
+      const loc = document.getElementById("tt-input-loc").value.trim();
+
+      const newLec = {
+        id: Date.now(),
+        title: title,
+        day: day,
+        start: start,
+        end: end,
+        loc: loc || "강의실 미정",
+        color: "#dbeafe",
+        border: "#2563eb"
+      };
+
+      timetableLectures.push(newLec);
+      localStorage.setItem("unimate_timetable", JSON.stringify(timetableLectures));
+      closeModal("modal-add-lecture");
+      document.getElementById("add-lecture-form").reset();
+      renderTimetable();
+      showToast("시간표에 새 강의가 등록되었습니다!", "success");
+    }
+
+    // Study Timer Logic
+    let timerInterval = null;
+    let timerSeconds = 0;
+    let isTimerRunning = false;
+    let timerMode = "stopwatch"; // 'stopwatch' or 'pomodoro'
+
+    function setTimerMode(mode) {
+      timerMode = mode;
+      resetTimer();
+      document.getElementById("timer-mode-stopwatch").className = mode === "stopwatch" ? "timer-mode-btn active" : "timer-mode-btn";
+      document.getElementById("timer-mode-pomodoro").className = mode === "pomodoro" ? "timer-mode-btn active" : "timer-mode-btn";
+      if (mode === "pomodoro") {
+        timerSeconds = 25 * 60;
+        updateTimerDisplay();
+      }
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById("timer-toggle-btn");
+      if (isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        btn.textContent = "계속";
+        btn.className = "btn btn-primary";
+      } else {
+        isTimerRunning = true;
+        btn.textContent = "일시정지";
+        btn.className = "btn btn-secondary";
+        timerInterval = setInterval(() => {
+          if (timerMode === "stopwatch") {
+            timerSeconds++;
+          } else {
+            if (timerSeconds > 0) {
+              timerSeconds--;
+            } else {
+              clearInterval(timerInterval);
+              isTimerRunning = false;
+              showToast("🔔 25분 포모도로 집중 시간이 완료되었습니다! 5분간 휴식을 취하세요.", "success");
+              btn.textContent = "시작";
+              return;
+            }
+          }
+          updateTimerDisplay();
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      document.getElementById("timer-toggle-btn").textContent = "시작";
+      document.getElementById("timer-toggle-btn").className = "btn btn-primary";
+      timerSeconds = timerMode === "pomodoro" ? 25 * 60 : 0;
+      updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+      const hrs = Math.floor(timerSeconds / 3600);
+      const mins = Math.floor((timerSeconds % 3600) / 60);
+      const secs = timerSeconds % 60;
+      document.getElementById("study-timer-display").textContent = 
+        `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function saveTimerToStudyLog() {
+      const mins = Math.floor(timerSeconds / 60);
+      if (mins < 1) {
+        showToast("최소 1분 이상 집중 기록이 있어야 학습 시간에 반영됩니다.", "error");
+        return;
+      }
+      showToast(`측정된 ${mins}분이 오늘 실제 공부시간에 성공적으로 누적되었습니다!`, "success");
+    }
+
+    function updateDailyTarget(val) {
+      document.getElementById("daily-target-val").textContent = `${val} 시간`;
+      document.getElementById("metric-study-time").textContent = `3.5 / ${val}h`;
+    }
+
+    function updateDailyActual(val) {
+      document.getElementById("daily-actual-val").textContent = `${val} 시간`;
+    }
+
+    // Tasks Checklist Logic
+    function renderStudyTasks() {
+      const container = document.getElementById("study-tasks-list");
+      container.innerHTML = studyTasks.map(t => `
+        <div class="todo-item">
+          <div class="todo-left">
+            <input type="checkbox" class="todo-checkbox" ${t.done ? "checked" : ""} onchange="toggleTaskDone(${t.id})">
+            <div>
+              <div class="todo-text ${t.done ? "done" : ""}">${escapeHtml(t.title)}</div>
+              <div style="font-size:11px; color:var(--text-light);">${t.date} 마감 (${t.type})</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="badge ${t.done ? 'badge-neutral' : 'badge-danger'}">${t.done ? '완료' : t.dday}</span>
+            <button class="btn btn-secondary btn-sm" onclick="deleteTask(${t.id})" style="padding:4px 8px; font-size:11px;">삭제</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function toggleTaskDone(id) {
+      const t = studyTasks.find(item => item.id === id);
+      if (t) {
+        t.done = !t.done;
+        localStorage.setItem("unimate_tasks", JSON.stringify(studyTasks));
+        renderStudyTasks();
+        renderHomeDashboard();
+        showToast(t.done ? "과제를 완료 처리했습니다! 🎉" : "과제 완료를 취소했습니다.", "info");
+      }
+    }
+
+    function deleteTask(id) {
+      studyTasks = studyTasks.filter(item => item.id !== id);
+      localStorage.setItem("unimate_tasks", JSON.stringify(studyTasks));
+      renderStudyTasks();
+      renderHomeDashboard();
+      showToast("일정이 삭제되었습니다.", "info");
+    }
+
+    function openAddTaskModal() {
+      openModal("modal-add-task");
+    }
+
+    function saveNewTask(e) {
+      e.preventDefault();
+      const title = document.getElementById("task-input-title").value.trim();
+      const type = document.getElementById("task-input-type").value;
+      const date = document.getElementById("task-input-date").value;
+
+      // Calculate D-Day
+      const today = new Date();
+      const targetDate = new Date(date);
+      const diffTime = targetDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const ddayStr = diffDays < 0 ? "마감" : diffDays === 0 ? "D-DAY" : `D-${diffDays}`;
+
+      const newTask = {
+        id: Date.now(),
+        title: title,
+        type: type,
+        date: date,
+        dday: ddayStr,
+        done: false
+      };
+
+      studyTasks.push(newTask);
+      localStorage.setItem("unimate_tasks", JSON.stringify(studyTasks));
+      closeModal("modal-add-task");
+      document.getElementById("add-task-form").reset();
+      renderStudyTasks();
+      renderHomeDashboard();
+      showToast("새 학습 일정이 등록되었습니다!", "success");
+    }
+
+    // Survey Study Method Logic
+    function openStudySurvey() {
+      switchStudySubTab("survey");
+    }
+
+    function submitStudySurvey(e) {
+      e.preventDefault();
+      const form = document.getElementById("study-survey-form");
+      const q1 = form.elements["sq1"].value;
+      const q2 = form.elements["sq2"].value;
+      const q3 = form.elements["sq3"].value;
+      const q4 = form.elements["sq4"].value;
+
+      const alertEl = document.getElementById("survey-validation-alert");
+      if (!q1 || !q2 || !q3 || !q4) {
+        alertEl.classList.add("visible");
+        return;
+      }
+      alertEl.classList.remove("visible");
+
+      // Dynamic calculation
+      const counts = { pomodoro: 0, feynman: 0, activerecall: 0, timeblocking: 0, sq3r: 0 };
+      counts[q1] = (counts[q1] || 0) + 1;
+      counts[q2] = (counts[q2] || 0) + 1;
+      counts[q3] = (counts[q3] || 0) + 1;
+      counts[q4] = (counts[q4] || 0) + 1;
+
+      let topMethod = "pomodoro";
+      let maxCount = -1;
+      for (const [key, val] of Object.entries(counts)) {
+        if (val > maxCount) {
+          maxCount = val;
+          topMethod = key;
+        }
+      }
+
+      displaySurveyResult(topMethod);
+    }
+
+    const STUDY_METHODS_DB = {
+      pomodoro: {
+        title: "🍅 포모도로 집중 루틴 (Pomodoro Technique)",
+        desc: "짧은 고강도 몰입과 규칙적인 휴식을 통해 뇌의 피로도를 최소화하고 딴짓을 원천 차단하는 세계적인 집중법입니다. 집중 유지 시간이 25분 내외인 분께 최적입니다.",
+        steps: [
+          "1사이클: 타이머를 25분 맞추고 스마트폰을 뒤집은 뒤 오직 한 가지 작업만 수행합니다.",
+          "휴식: 25분 알람이 울리면 5분 동안 스트레칭이나 물을 마시며 뇌를 완전히 쉬게 합니다.",
+          "4사이클(총 2시간) 반복 후 20~30분의 긴 휴식을 갖습니다.",
+          "실행 팁: UniMate의 [스톱워치 & 포모도로 타이머] 기능을 활용해 보세요."
+        ]
+      },
+      feynman: {
+        title: "🧠 파인만 기법 (Feynman Technique)",
+        desc: "노벨 물리학상 수상자 리처드 파인만의 공부법으로, 복잡한 개념을 '초등학생도 이해할 수 있는 쉬운 언어'로 누군가에게 설명해보며 자신의 이해 공백을 찾아내는 최고의 메타인지 학습법입니다.",
+        steps: [
+          "학습할 개념을 백지 상단에 적습니다.",
+          "전공 전문용어 대신 일상 비유와 쉬운 단어만을 사용하여 혼잣말이나 글로 설명해 봅니다.",
+          "설명이 막히거나 버벅거리는 부분이 있다면 즉시 기본 교재로 돌아가 그 부분만 다시 읽습니다.",
+          "친구와의 밥약이나 커뮤니티 스터디 모임에서 개념을 공유해 보세요."
+        ]
+      },
+      activerecall: {
+        title: "⚡ 액티브 리콜 & 분산 반복 (Active Recall & Spaced Repetition)",
+        desc: "단순히 책을 눈으로 여러 번 읽는 수동적 복습을 버리고, 뇌에서 정보를 끄집어내는 인출 연습을 통해 시험 고득점을 보장하는 인지과학 기반 학습법입니다.",
+        steps: [
+          "교재를 1회 정독한 뒤 책을 덮고, 백지에 기억나는 모든 핵심 키워드와 구조를 적어봅니다.",
+          "내가 만든 자가 퀴즈(플래시카드)를 통해 1일 뒤, 3일 뒤, 7일 뒤 주기로 복습합니다.",
+          "틀린 문제 위주로 인출 간격을 좁혀 장기 기억으로 전환시킵니다."
+        ]
+      },
+      timeblocking: {
+        title: "🎯 타임 블로킹 & 딥워크 (Time Blocking & Deep Work)",
+        desc: "하루 일정을 시간 단위 블록으로 미리 확정해 두고, 해당 시간에는 해당 작업만 진행하는 일론 머스크와 칼 뉴포트의 초생산성 기법입니다. 과제, 코딩, 팀 프로젝트 몰입에 탁월합니다.",
+        steps: [
+          "전날 밤 내일의 시간표에서 비어있는 공강 시간에 90~120분 단위의 '딥워크 블록'을 배정합니다.",
+          "블록 시간에는 메신저 알림을 모두 끄고 오직 1개의 대형 과제나 프로젝트에만 집중합니다.",
+          "계획보다 일찍 끝나도 다른 잡무를 하지 않고 해당 작업을 심화합니다."
+        ]
+      },
+      sq3r: {
+        title: "📚 SQ3R 5단계 독서법 (Survey, Question, Read, Recite, Review)",
+        desc: "방대한 전공 서적이나 논문, 원서를 읽어야 하는 대학생을 위한 정독 기법입니다.",
+        steps: [
+          "Survey (훑어보기): 목차, 소제목, 도표를 3분간 빠르게 훑습니다.",
+          "Question (질문 만들기): 각 소제목을 질문 형태로 바꿔 메모합니다.",
+          "Read (읽기): 메모한 질문의 답을 찾는다는 목표의식으로 읽습니다.",
+          "Recite (되새기기): 한 단락을 읽은 후 책을 보지 않고 답을 말해봅니다.",
+          "Review (복습하기): 전체 내용을 총괄 점검합니다."
+        ]
+      }
+    };
+
+    function displaySurveyResult(methodKey) {
+      const data = STUDY_METHODS_DB[methodKey] || STUDY_METHODS_DB.pomodoro;
+      document.getElementById("survey-res-title").textContent = data.title;
+      document.getElementById("survey-res-desc").textContent = data.desc;
+      document.getElementById("survey-res-steps").innerHTML = data.steps.map(s => `<li>${s}</li>`).join("");
+
+      const resBox = document.getElementById("survey-result-box");
+      resBox.style.display = "block";
+      resBox.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function applyStudyMethod() {
+      showToast("추천 공부법이 내 학습 대시보드 플랜에 반영되었습니다!", "success");
+      switchStudySubTab("manage");
+    }
+
+    function resetSurvey() {
+      document.getElementById("study-survey-form").reset();
+      document.getElementById("survey-result-box").style.display = "none";
+    }
+
+    // =====================================================================
+    // 5. Community View Logic
+    // =====================================================================
+    let currentBoard = "all";
+    let activeDetailPost = null;
+
+    function selectBoard(boardKey, el) {
+      currentBoard = boardKey;
+      document.querySelectorAll(".board-nav-item").forEach(item => item.classList.remove("active"));
+      el.classList.add("active");
+
+      const nameMap = {
+        all: "전체 게시판",
+        free: "자유게시판",
+        school: `${currentUser.university} 전용 게시판`,
+        major: "학과별 게시판",
+        qna: "학교생활 질문 (Q&A)",
+        study: "스터디 모집",
+        project: "팀 프로젝트 팀원 모집"
+      };
+
+      document.getElementById("current-board-title").textContent = nameMap[boardKey] || "게시판";
+      document.getElementById("board-tag-indicator").textContent = nameMap[boardKey] || "전체";
+      renderCommunityPosts();
+    }
+
+    function renderCommunityPosts() {
+      const container = document.getElementById("community-posts-container");
+      const searchKeyword = document.getElementById("comm-search-input").value.trim().toLowerCase();
+
+      let filtered = [...communityPosts];
+
+      if (currentBoard !== "all") {
+        filtered = filtered.filter(p => p.board === currentBoard);
+      }
+
+      if (searchKeyword) {
+        filtered = filtered.filter(p => p.title.toLowerCase().includes(searchKeyword) || p.content.toLowerCase().includes(searchKeyword));
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="card" style="text-align:center; padding:40px; color:var(--text-muted);">
+            등록된 게시글이 없습니다. 첫 번째 글을 작성해 보세요!
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => `
+        <div class="post-card" onclick="openPostDetail(${p.id})">
+          <div class="post-header">
+            <span class="badge badge-primary">${p.boardName}</span>
+            <span class="post-author">${escapeHtml(p.author)} · ${escapeHtml(p.dept)}</span>
+            <span class="post-time">${p.time}</span>
+          </div>
+          <h4 class="post-title">${escapeHtml(p.title)}</h4>
+          <p class="post-snippet">${escapeHtml(p.content)}</p>
+          <div class="post-footer">
+            <span class="post-metric">❤️ ${p.likes}</span>
+            <span class="post-metric">💬 ${p.comments.length}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function openWritePostModal() {
+      openModal("modal-write-post");
+    }
+
+    function saveNewCommunityPost(e) {
+      e.preventDefault();
+      const board = document.getElementById("post-input-board").value;
+      const title = document.getElementById("post-input-title").value.trim();
+      const content = document.getElementById("post-input-content").value.trim();
+
+      const boardNames = {
+        free: "자유게시판",
+        school: `${currentUser.university} 전용`,
+        major: "학과별 게시판",
+        qna: "학교생활 질문",
+        study: "스터디 모집",
+        project: "팀 프로젝트 모집"
+      };
+
+      const newPost = {
+        id: Date.now(),
+        board: board,
+        boardName: boardNames[board],
+        author: currentUser.nickname,
+        univ: currentUser.university,
+        dept: currentUser.department,
+        time: "방금 전",
+        title: title,
+        content: content,
+        likes: 0,
+        isLiked: false,
+        comments: []
+      };
+
+      communityPosts.unshift(newPost);
+      localStorage.setItem("unimate_posts", JSON.stringify(communityPosts));
+      closeModal("modal-write-post");
+      document.getElementById("write-post-form").reset();
+      renderCommunityPosts();
+      renderHomeDashboard();
+      showToast("새 게시글이 등록되었습니다!", "success");
+    }
+
+    function openPostDetail(id) {
+      const post = communityPosts.find(p => p.id === id);
+      if (!post) return;
+
+      activeDetailPost = post;
+      document.getElementById("detail-post-board").textContent = post.boardName;
+      document.getElementById("detail-post-author").textContent = `${post.author} (${post.univ} ${post.dept})`;
+      document.getElementById("detail-post-avatar").textContent = post.author.charAt(0);
+      document.getElementById("detail-post-time").textContent = post.time;
+      document.getElementById("detail-post-title").textContent = post.title;
+      document.getElementById("detail-post-body").textContent = post.content;
+      document.getElementById("detail-post-like-count").textContent = post.likes;
+      document.getElementById("detail-post-comment-count").textContent = post.comments.length;
+
+      // Delete button visible if current user is author
+      const deleteBtn = document.getElementById("detail-post-delete-btn");
+      if (post.author === currentUser.nickname) {
+        deleteBtn.style.display = "inline-flex";
+      } else {
+        deleteBtn.style.display = "none";
+      }
+
+      renderPostComments();
+      openModal("modal-post-detail");
+    }
+
+    function renderPostComments() {
+      if (!activeDetailPost) return;
+      const list = document.getElementById("detail-comments-list");
+      if (activeDetailPost.comments.length === 0) {
+        list.innerHTML = `<div style="font-size:12.5px; color:var(--text-light); text-align:center; padding:12px;">아직 작성된 댓글이 없습니다.</div>`;
+      } else {
+        list.innerHTML = activeDetailPost.comments.map(c => `
+          <div style="padding:10px; background:var(--bg-page); border-radius:var(--radius-md); font-size:13px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-weight:700;">
+              <span>${escapeHtml(c.author)}</span>
+              <span style="font-size:11px; color:var(--text-light); font-weight:normal;">${c.time}</span>
+            </div>
+            <div style="color:#334155;">${escapeHtml(c.text)}</div>
+          </div>
+        `).join("");
+      }
+    }
+
+    function submitComment(e) {
+      e.preventDefault();
+      if (!activeDetailPost) return;
+      const input = document.getElementById("comment-input");
+      const text = input.value.trim();
+      if (!text) return;
+
+      activeDetailPost.comments.push({
+        author: currentUser.nickname,
+        text: text,
+        time: "방금 전"
+      });
+
+      localStorage.setItem("unimate_posts", JSON.stringify(communityPosts));
+      input.value = "";
+      document.getElementById("detail-post-comment-count").textContent = activeDetailPost.comments.length;
+      renderPostComments();
+      renderCommunityPosts();
+      showToast("댓글이 등록되었습니다.", "success");
+    }
+
+    function togglePostLike() {
+      if (!activeDetailPost) return;
+      activeDetailPost.isLiked = !activeDetailPost.isLiked;
+      activeDetailPost.likes += activeDetailPost.isLiked ? 1 : -1;
+      localStorage.setItem("unimate_posts", JSON.stringify(communityPosts));
+      document.getElementById("detail-post-like-count").textContent = activeDetailPost.likes;
+      renderCommunityPosts();
+      showToast(activeDetailPost.isLiked ? "이 글을 좋아합니다 ❤️" : "좋아요를 취소했습니다.", "info");
+    }
+
+    function deleteCurrentPost() {
+      if (!activeDetailPost) return;
+      if (confirm("정말 이 게시글을 삭제하시겠습니까?")) {
+        communityPosts = communityPosts.filter(p => p.id !== activeDetailPost.id);
+        localStorage.setItem("unimate_posts", JSON.stringify(communityPosts));
+        closeModal("modal-post-detail");
+        renderCommunityPosts();
+        renderHomeDashboard();
+        showToast("게시글이 삭제되었습니다.", "info");
+      }
+    }
+
+    // =====================================================================
+    // 6. 밥약 (Meal Mate Matching) View Logic
+    // =====================================================================
+    let currentBapyakFood = "전체";
+    let activeDetailBapyak = null;
+
+    function filterBapyakFood(food, btn) {
+      currentBapyakFood = food;
+      document.querySelectorAll("#bapyak-food-filters .filter-chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderBapyakList();
+    }
+
+    function renderBapyakList() {
+      const container = document.getElementById("bapyak-grid-container");
+      const statusFilter = document.getElementById("bapyak-status-filter").value;
+      const searchKeyword = document.getElementById("bapyak-search-input").value.trim().toLowerCase();
+
+      let filtered = [...bapyakPosts];
+
+      if (currentBapyakFood !== "전체") {
+        filtered = filtered.filter(b => b.food === currentBapyakFood);
+      }
+
+      if (statusFilter !== "all") {
+        filtered = filtered.filter(b => b.status === statusFilter);
+      }
+
+      if (searchKeyword) {
+        filtered = filtered.filter(b => 
+          b.title.toLowerCase().includes(searchKeyword) ||
+          b.location.toLowerCase().includes(searchKeyword) ||
+          b.food.toLowerCase().includes(searchKeyword)
+        );
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1/-1; text-align:center; padding:48px 24px; color:var(--text-muted);" class="card">
+            <h4>조건에 맞는 밥약 모집글이 없습니다. 새로운 밥약을 먼저 제안해 보세요!</h4>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(b => `
+        <div class="bapyak-card">
+          <div>
+            <div class="bapyak-top">
+              <span class="badge ${b.status === 'recruiting' ? 'badge-success' : 'badge-neutral'}">
+                ${b.status === 'recruiting' ? '모집중' : '모집완료'}
+              </span>
+              <span class="badge badge-primary">${b.food}</span>
+            </div>
+            <h4 class="bapyak-title">${escapeHtml(b.title)}</h4>
+            <p class="bapyak-intro">${escapeHtml(b.intro)}</p>
+
+            <div class="bapyak-details">
+              <div class="bapyak-details-row">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>${b.date} ${b.time}</span>
+              </div>
+              <div class="bapyak-details-row">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>${escapeHtml(b.location)}</span>
+              </div>
+              <div class="bapyak-details-row">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>모집 현황: <strong>${b.headcountCurrent} / ${b.headcountMax}명</strong></span>
+              </div>
+            </div>
+
+            <div class="bapyak-host">
+              <div class="bapyak-host-avatar">${b.hostName.charAt(0)}</div>
+              <div class="bapyak-host-info">
+                <div class="name">${escapeHtml(b.hostName)}</div>
+                <div class="meta">${escapeHtml(b.hostUniv)} · ${escapeHtml(b.hostDept)}</div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-sm" style="width:100%;" onclick="openBapyakDetail(${b.id})">
+            상세보기 및 참여 신청
+          </button>
+        </div>
+      `).join("");
+    }
+
+    function openCreateBapyakModal() {
+      // Set default date to today
+      const todayStr = new Date().toISOString().split("T")[0];
+      document.getElementById("bapyak-input-date").value = todayStr;
+      openModal("modal-create-bapyak");
+    }
+
+    function saveNewBapyak(e) {
+      e.preventDefault();
+      const title = document.getElementById("bapyak-input-title").value.trim();
+      const date = document.getElementById("bapyak-input-date").value;
+      const time = document.getElementById("bapyak-input-time").value;
+      const loc = document.getElementById("bapyak-input-loc").value.trim();
+      const food = document.getElementById("bapyak-input-food").value;
+      const maxHead = parseInt(document.getElementById("bapyak-input-headcount").value, 10);
+      const intro = document.getElementById("bapyak-input-intro").value.trim();
+
+      const newBapyak = {
+        id: Date.now(),
+        title: title,
+        date: date,
+        time: time,
+        location: loc,
+        food: food,
+        headcountCurrent: 1, // host is participant #1
+        headcountMax: maxHead,
+        status: "recruiting",
+        hostName: currentUser.nickname,
+        hostUniv: currentUser.university,
+        hostDept: currentUser.department,
+        intro: intro,
+        applicants: []
+      };
+
+      bapyakPosts.unshift(newBapyak);
+      localStorage.setItem("unimate_bapyak", JSON.stringify(bapyakPosts));
+      closeModal("modal-create-bapyak");
+      document.getElementById("create-bapyak-form").reset();
+      renderBapyakList();
+      renderHomeDashboard();
+      showToast("밥약 모집글이 등록되었습니다! 맛있는 식사 되세요 🍽️", "success");
+    }
+
+    function openBapyakDetail(id) {
+      const b = bapyakPosts.find(item => item.id === id);
+      if (!b) return;
+
+      activeDetailBapyak = b;
+      document.getElementById("detail-bapyak-status").textContent = b.status === "recruiting" ? "모집중" : "모집완료";
+      document.getElementById("detail-bapyak-status").className = `badge ${b.status === 'recruiting' ? 'badge-success' : 'badge-neutral'}`;
+      document.getElementById("detail-bapyak-food").textContent = b.food;
+      document.getElementById("detail-bapyak-title").textContent = b.title;
+      document.getElementById("detail-bapyak-avatar").textContent = b.hostName.charAt(0);
+      document.getElementById("detail-bapyak-hostname").textContent = b.hostName;
+      document.getElementById("detail-bapyak-hostmeta").textContent = `${b.hostUniv} ${b.hostDept}`;
+      document.getElementById("detail-bapyak-datetime").textContent = `${b.date} ${b.time}`;
+      document.getElementById("detail-bapyak-location").textContent = b.location;
+      document.getElementById("detail-bapyak-headcount").textContent = `현재 ${b.headcountCurrent}명 / 총 ${b.headcountMax}명`;
+      document.getElementById("detail-bapyak-intro").textContent = b.intro;
+
+      const actionBtn = document.getElementById("detail-bapyak-action-btn");
+      const applicantsArea = document.getElementById("bapyak-applicants-area");
+
+      const isHost = b.hostName === currentUser.nickname;
+      const alreadyApplied = b.applicants.some(a => a.name === currentUser.nickname);
+
+      if (isHost) {
+        actionBtn.style.display = "none";
+        applicantsArea.style.display = "block";
+        renderApplicantsList();
+      } else {
+        applicantsArea.style.display = "none";
+        actionBtn.style.display = "inline-flex";
+
+        if (b.status === "completed") {
+          actionBtn.textContent = "모집 완료됨";
+          actionBtn.disabled = true;
+          actionBtn.className = "btn btn-secondary";
+        } else if (alreadyApplied) {
+          actionBtn.textContent = "참여 신청 완료 (승인 대기중)";
+          actionBtn.disabled = true;
+          actionBtn.className = "btn btn-secondary";
+        } else {
+          actionBtn.textContent = "참여 신청하기";
+          actionBtn.disabled = false;
+          actionBtn.className = "btn btn-primary";
+        }
+      }
+
+      openModal("modal-bapyak-detail");
+    }
+
+    function renderApplicantsList() {
+      if (!activeDetailBapyak) return;
+      const list = document.getElementById("bapyak-applicants-list");
+      if (activeDetailBapyak.applicants.length === 0) {
+        list.innerHTML = `<div style="font-size:12px; color:var(--text-light); text-align:center; padding:10px;">아직 들어온 참여 신청이 없습니다.</div>`;
+        return;
+      }
+
+      list.innerHTML = activeDetailBapyak.applicants.map((a, idx) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); font-size:12.5px;">
+          <div>
+            <strong>${escapeHtml(a.name)}</strong> (${escapeHtml(a.dept)})
+            <div style="color:var(--text-muted); font-size:11.5px;">"${escapeHtml(a.msg)}"</div>
+          </div>
+          <div>
+            ${a.approved 
+              ? `<span class="badge badge-success">승인됨</span>`
+              : `<button class="btn btn-primary btn-sm" style="padding:3px 8px; font-size:11px;" onclick="approveApplicant(${idx})">승인</button>
+                 <button class="btn btn-secondary btn-sm" style="padding:3px 8px; font-size:11px;" onclick="rejectApplicant(${idx})">거절</button>`
+            }
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function approveApplicant(idx) {
+      if (!activeDetailBapyak) return;
+      const applicant = activeDetailBapyak.applicants[idx];
+      applicant.approved = true;
+      activeDetailBapyak.headcountCurrent++;
+
+      if (activeDetailBapyak.headcountCurrent >= activeDetailBapyak.headcountMax) {
+        activeDetailBapyak.status = "completed";
+      }
+
+      localStorage.setItem("unimate_bapyak", JSON.stringify(bapyakPosts));
+      renderApplicantsList();
+      renderBapyakList();
+      renderHomeDashboard();
+      showToast(`${applicant.name}님의 참여 신청을 승인하였습니다!`, "success");
+    }
+
+    function rejectApplicant(idx) {
+      if (!activeDetailBapyak) return;
+      activeDetailBapyak.applicants.splice(idx, 1);
+      localStorage.setItem("unimate_bapyak", JSON.stringify(bapyakPosts));
+      renderApplicantsList();
+      showToast("참여 신청을 거절하였습니다.", "info");
+    }
+
+    function applyToCurrentBapyak() {
+      if (!activeDetailBapyak) return;
+      const msg = prompt("호스트에게 보낼 간단한 자기소개 및 한마디를 입력하세요:", "안녕하세요! 저도 식사 같이하고 싶어서 신청합니다.");
+      if (msg === null) return;
+
+      activeDetailBapyak.applicants.push({
+        name: currentUser.nickname,
+        dept: currentUser.department,
+        msg: msg || "식사 같이해요!",
+        approved: false
+      });
+
+      localStorage.setItem("unimate_bapyak", JSON.stringify(bapyakPosts));
+      closeModal("modal-bapyak-detail");
+      renderBapyakList();
+      showToast("밥약 참여 신청이 완료되었습니다! 호스트 승인을 기다려주세요.", "success");
+    }
+
+    // =====================================================================
+    // 7. My Page View Logic
+    // =====================================================================
+    let currentMyPageSubTab = "bookmarks";
+
+    function switchMyPageSubTab(tab) {
+      currentMyPageSubTab = tab;
+      document.querySelectorAll("#view-mypage .filter-chip").forEach(b => b.classList.remove("active"));
+      const btn = document.getElementById(`mypage-tab-${tab}-btn`);
+      if (btn) btn.classList.add("active");
+      renderMyPageView();
+    }
+
+    function renderMyPageView() {
+      document.getElementById("mypage-avatar").textContent = currentUser.nickname.charAt(0);
+      document.getElementById("mypage-name").textContent = currentUser.nickname;
+      document.getElementById("mypage-grade").textContent = currentUser.grade;
+      document.getElementById("mypage-univ-dept").textContent = `${currentUser.university} ${currentUser.department}`;
+
+      document.getElementById("mypage-interests").innerHTML = currentUser.interests.map(i => `
+        <span class="chip-btn selected" style="cursor:default;">#${i}</span>
+      `).join("");
+
+      const content = document.getElementById("mypage-sub-content");
+
+      if (currentMyPageSubTab === "bookmarks") {
+        const bookmarked = opportunities.filter(o => o.bookmarked);
+        if (bookmarked.length === 0) {
+          content.innerHTML = `<div class="card" style="text-align:center; padding:32px; color:var(--text-muted);">즐겨찾기한 공모전이나 대외활동이 없습니다.</div>`;
+        } else {
+          content.innerHTML = `
+            <div class="opp-grid">
+              ${bookmarked.map(o => `
+                <div class="opp-card">
+                  <div>
+                    <div class="opp-top">
+                      <span class="opp-organizer">${escapeHtml(o.organizer)}</span>
+                      <span class="badge badge-danger">${o.dday}</span>
+                    </div>
+                    <h4 class="opp-title">${escapeHtml(o.title)}</h4>
+                    <p class="opp-desc">${escapeHtml(o.desc)}</p>
+                  </div>
+                  <div class="opp-actions">
+                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="openOppDetail(${o.id})">상세보기</button>
+                    <button class="bookmark-btn active" onclick="toggleBookmark(${o.id}, event)">★</button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          `;
+        }
+      } else if (currentMyPageSubTab === "posts") {
+        const myPosts = communityPosts.filter(p => p.author === currentUser.nickname);
+        if (myPosts.length === 0) {
+          content.innerHTML = `<div class="card" style="text-align:center; padding:32px; color:var(--text-muted);">내가 작성한 게시글이 없습니다.</div>`;
+        } else {
+          content.innerHTML = myPosts.map(p => `
+            <div class="post-card" onclick="openPostDetail(${p.id})">
+              <div class="post-header">
+                <span class="badge badge-primary">${p.boardName}</span>
+                <span class="post-time">${p.time}</span>
+              </div>
+              <h4 class="post-title">${escapeHtml(p.title)}</h4>
+              <p class="post-snippet">${escapeHtml(p.content)}</p>
+            </div>
+          `).join("");
+        }
+      } else if (currentMyPageSubTab === "bapyak") {
+        const myBapyak = bapyakPosts.filter(b => b.hostName === currentUser.nickname || b.applicants.some(a => a.name === currentUser.nickname));
+        if (myBapyak.length === 0) {
+          content.innerHTML = `<div class="card" style="text-align:center; padding:32px; color:var(--text-muted);">참여하거나 모집한 밥약 내역이 없습니다.</div>`;
+        } else {
+          content.innerHTML = `
+            <div class="bapyak-grid">
+              ${myBapyak.map(b => `
+                <div class="bapyak-card">
+                  <div>
+                    <span class="badge ${b.status === 'recruiting' ? 'badge-success' : 'badge-neutral'}">${b.status === 'recruiting' ? '모집중' : '모집완료'}</span>
+                    <h4 class="bapyak-title" style="margin-top:8px;">${escapeHtml(b.title)}</h4>
+                    <p style="font-size:12px; color:var(--text-muted);">${b.date} ${b.time} · ${escapeHtml(b.location)}</p>
+                  </div>
+                  <button class="btn btn-secondary btn-sm" style="margin-top:12px;" onclick="openBapyakDetail(${b.id})">상태 확인</button>
+                </div>
+              `).join("")}
+            </div>
+          `;
+        }
+      } else if (currentMyPageSubTab === "report") {
+        content.innerHTML = `
+          <div class="card">
+            <h4 style="font-size:17px; font-weight:800; margin-bottom:14px;">📊 나의 캠퍼스 학습 성취 리포트</h4>
+            <div class="metrics-row" style="margin-bottom:16px;">
+              <div class="metric-card">
+                <div>
+                  <div class="metric-val" style="color:var(--primary-light);">18.5h</div>
+                  <div class="metric-lbl">이번 주 총 공부 시간</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div>
+                  <div class="metric-val" style="color:var(--success);">74%</div>
+                  <div class="metric-lbl">주간 목표 달성률</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div>
+                  <div class="metric-val" style="color:var(--warning);">3건</div>
+                  <div class="metric-lbl">완료된 과제 및 퀴즈</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div>
+                  <div class="metric-val" style="color:var(--accent);">포모도로</div>
+                  <div class="metric-lbl">나의 맞춤형 공부 유형</div>
+                </div>
+              </div>
+            </div>
+            <p style="font-size:13px; color:var(--text-muted); line-height:1.5;">
+              학습 시간과 과제 완료율이 지난주 대비 12% 상승했습니다. 시험 전 꾸준한 인출 연습을 유지해 보세요.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    // =====================================================================
+    // Report & Safety Logic
+    // =====================================================================
+    function reportContent(type) {
+      const reason = prompt(`[안전 캠퍼스 신고]\n${type}에 대한 신고 사유를 입력해 주세요 (욕설/비방, 허위정보, 상업적 홍보, 개인 연락처 요구 등):`);
+      if (reason) {
+        showToast("신고가 안전하게 접수되었습니다. 운영팀 검토 후 조치됩니다.", "success");
+      }
+    }
+
+    // =====================================================================
+    // Utility Helpers: Toast & Modal & Escape
+    // =====================================================================
+    function showToast(msg, type = "info") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>${escapeHtml(msg)}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(40px)";
+        setTimeout(() => toast.remove(), 250);
+      }, 3200);
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add("active");
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove("active");
+    }
+
+    // Close modal on background click
+    document.querySelectorAll(".modal-overlay").forEach(overlay => {
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove("active");
+        }
+      });
+    });
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Set Today's date format
+    function initDateDisplay() {
+      const now = new Date();
+      const days = ["일", "월", "화", "수", "목", "금", "토"];
+      const str = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일 (${days[now.getDay()]})`;
+      const topDate = document.getElementById("topbar-date");
+      if (topDate) topDate.textContent = str;
+    }
+
+    // Initial Bootstrap
+    window.addEventListener("DOMContentLoaded", () => {
+      initDateDisplay();
+      syncUserUI();
+      renderHomeDashboard();
+
+      // If user hasn't completed onboarding, open profile modal
+      if (!localStorage.getItem("unimate_profile")) {
+        setTimeout(() => {
+          openProfileModal();
+        }, 300);
+      }
+    });
+  </script>
+</body>
+</html>
